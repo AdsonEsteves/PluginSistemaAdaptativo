@@ -5,9 +5,15 @@
  */
 package br.univali.portugol.plugin.maspath.telas;
 
+import br.univali.portugol.plugin.maspath.drawer.GraphDrawer;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.Themeable;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
+import com.alee.extended.image.DisplayType;
+import com.alee.extended.image.WebImage;
+import java.awt.Image;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -18,15 +24,25 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
     /**
      * Creates new form painelMenuPrincipal
      */
+    
+    GraphDrawer drawer = new GraphDrawer();
+    
     public painelMenuPrincipal() {
         initComponents();
         configurarCores();
+        configuraPainel();
+    }
+    
+    private void configuraPainel()
+    {
+        setImage(drawer.drawGraph());
     }
 
     @Override
     public void configurarCores() {
         this.setBackground(ColorController.COR_PRINCIPAL);
         painelUsuário.setBackground(ColorController.COR_DESTAQUE);
+        labelPicUsuario.setForeground(ColorController.COR_LETRA);
         labelNomeUsuario.setForeground(ColorController.COR_LETRA);
         if(WeblafUtils.weblafEstaInstalado())
         {
@@ -40,7 +56,15 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         }
     }
     
-    
+    private void setImage(Image image){
+        SwingUtilities.invokeLater(() -> {            
+            painelTrilha.removeAll();
+            WebImage webImage = new WebImage(image);
+            webImage.setDisplayType(DisplayType.fitComponent);
+            painelTrilha.add(webImage);
+            painelTrilha.revalidate();
+        });
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -58,10 +82,11 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         botaoPerguntar = new com.alee.laf.button.WebButton();
         botaoAjuda = new com.alee.laf.button.WebButton();
         painelUsuário = new javax.swing.JPanel();
+        labelPicUsuario = new javax.swing.JLabel();
         labelNomeUsuario = new javax.swing.JLabel();
         botaoLogout = new com.alee.laf.button.WebButton();
         botaoConfiguracoes = new com.alee.laf.button.WebButton();
-        jPanel2 = new javax.swing.JPanel();
+        painelTrilha = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(810, 480));
         setPreferredSize(new java.awt.Dimension(810, 480));
@@ -104,23 +129,33 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         gridBagConstraints.insets = new java.awt.Insets(25, 40, 25, 40);
         painelMenu.add(botaoAjuda, gridBagConstraints);
 
-        painelUsuário.setMinimumSize(new java.awt.Dimension(100, 100));
+        painelUsuário.setMinimumSize(new java.awt.Dimension(100, 120));
         painelUsuário.setOpaque(false);
-        painelUsuário.setPreferredSize(new java.awt.Dimension(100, 100));
+        painelUsuário.setPreferredSize(new java.awt.Dimension(100, 120));
         painelUsuário.setLayout(new java.awt.GridBagLayout());
 
-        labelNomeUsuario.setText("Nome Usuario");
+        labelPicUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelPicUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/userpic100.png"))); // NOI18N
+        labelPicUsuario.setMaximumSize(new java.awt.Dimension(100, 100));
+        labelPicUsuario.setMinimumSize(new java.awt.Dimension(100, 100));
+        labelPicUsuario.setPreferredSize(new java.awt.Dimension(100, 100));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
+        painelUsuário.add(labelPicUsuario, gridBagConstraints);
+
+        labelNomeUsuario.setText("Nome do Ususário");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         painelUsuário.add(labelNomeUsuario, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(25, 40, 25, 40);
+        gridBagConstraints.insets = new java.awt.Insets(15, 40, 15, 40);
         painelMenu.add(painelUsuário, gridBagConstraints);
 
         botaoLogout.setText("Logout");
@@ -143,15 +178,15 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         add(painelMenu, gridBagConstraints);
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(610, 480));
-        jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(610, 480));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        painelTrilha.setMinimumSize(new java.awt.Dimension(610, 480));
+        painelTrilha.setOpaque(false);
+        painelTrilha.setPreferredSize(new java.awt.Dimension(610, 480));
+        painelTrilha.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        add(jPanel2, gridBagConstraints);
+        add(painelTrilha, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -162,9 +197,10 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
     private com.alee.laf.button.WebButton botaoPerguntar;
     private com.alee.laf.button.WebButton botaoSelecionarConteudo;
     private com.alee.laf.button.WebButton botaoVerTrilhas;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelNomeUsuario;
+    private javax.swing.JLabel labelPicUsuario;
     private javax.swing.JPanel painelMenu;
+    private javax.swing.JPanel painelTrilha;
     private javax.swing.JPanel painelUsuário;
     // End of variables declaration//GEN-END:variables
 }

@@ -45,10 +45,11 @@ public class ControladorDeJanelas {
     
     public void showjanelaPrincipal()
     {
-        janelaPrincipal.setVisible(true);
         janelaPrincipal.repaint();
         janelaPrincipal.revalidate();
         janelaPrincipal.pack();
+        janelaPrincipal.setLocationRelativeTo(null);
+        janelaPrincipal.setVisible(true);
         
     }
     
@@ -60,10 +61,11 @@ public class ControladorDeJanelas {
     
     public void showJanelaMenuPrincipal()
     {
-        janelaMenuPrincipal.setVisible(true);
         janelaMenuPrincipal.repaint();
         janelaMenuPrincipal.revalidate();
         janelaMenuPrincipal.pack();        
+        janelaMenuPrincipal.setLocationRelativeTo(null);
+        janelaMenuPrincipal.setVisible(true);
     }
     
     public void closeJanelaMenuPrincipal()
