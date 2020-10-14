@@ -145,12 +145,12 @@ public class Student {
             ", avatar:'" + avatar + "'" +
             ", genero:'" + genero + "'" +
             ", idade:" + idade + "" +
-            ", nivelEdu:'" + nivelEducacional + "'" +
+            ", nivelEducacional:'" + nivelEducacional + "'" +
             ", preferencias:" + preferencias + "" +
-            ", trilha:'" + trilha + "'" +
-            ", exerciciosResolvidos:'" + exerciciosResolvidos + "'" +
+            ", trilha:" + trilha + "" +
+            ", exerciciosResolvidos:" + exerciciosResolvidos + "" +
             ", tempoResolucao:" + tempoResolucao + "" +
-            ", errosDoEstudante:'" + errosDoEstudante + "'" +
+            ", errosDoEstudante:" + errosDoEstudante + "" +
             "}";
     }
 

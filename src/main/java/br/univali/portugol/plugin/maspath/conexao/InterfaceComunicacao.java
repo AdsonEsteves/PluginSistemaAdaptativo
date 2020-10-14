@@ -13,13 +13,12 @@ public class InterfaceComunicacao {
     }    
     public String criarAluno(Student aluno)
     {
-        JSONObject response = ConexaoHTTP.fazerRequest("/interface/contas", "POST", new JSONObject(aluno.toString()));
-        System.out.println(response.toString());
-        return "SUCESSO?";
+        String response = ConexaoHTTP.fazerRequest("/interface/contas", "POST", new JSONObject(aluno.toString()));
+        return response.toString();
     }
 
     public static void main(String[] args) {
-        Student student = new Student("MAYONESE", "COOL", "MMMMMM", "homem", 21, "ensino médio", new ArrayList<>());
+        Student student = new Student("MANBAKI", "bruh", "MMMMMM", "mulher", 16, "ensino médio", new ArrayList<>());
         InterfaceComunicacao intercom = new InterfaceComunicacao();
         System.out.println(intercom.criarAluno(student));        
     }
