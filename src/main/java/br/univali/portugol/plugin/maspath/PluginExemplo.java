@@ -33,8 +33,9 @@ public final class PluginExemplo extends Plugin
         this.utilizador = utilizador;
         //Aqui você deve instalar todas as ações que seu plugin fará, ou seja, seus botões
         GerenciadorPlugins.getInstance().instalarAcaoPlugin(this, new AcaoPersonalizadaEstatica());
-        GerenciadorPlugins.getInstance().instalarAcaoPlugin(this, new AcaoPersonalizadaDinamica());
-        this.utilizador.registrarBiblioteca(Exemplo.class);
+//        GerenciadorPlugins.getInstance().instalarAcaoPlugin(this, new AcaoPersonalizadaEstatica());
+//        GerenciadorPlugins.getInstance().instalarAcaoPlugin(this, new AcaoPersonalizadaDinamica());
+//        this.utilizador.registrarBiblioteca(Exemplo.class);
     }
 
     @Override

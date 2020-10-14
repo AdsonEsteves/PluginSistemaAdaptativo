@@ -46,12 +46,12 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         labelNomeUsuario.setForeground(ColorController.COR_LETRA);
         if(WeblafUtils.weblafEstaInstalado())
         {
-            WeblafUtils.configurarBotao(botaoAjuda, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2, true);
-            WeblafUtils.configurarBotao(botaoConfiguracoes, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2, true);
-            WeblafUtils.configurarBotao(botaoLogout, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2, true);
-            WeblafUtils.configurarBotao(botaoPerguntar, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2, true);
-            WeblafUtils.configurarBotao(botaoSelecionarConteudo, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2, true);
-            WeblafUtils.configurarBotao(botaoVerTrilhas, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2, true);
+            WeblafUtils.configurarBotao(botaoAjuda, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoConfiguracoes, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoLogout, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoPerguntar, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoSelecionarConteudo, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoVerTrilhas, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
             
         }
     }
@@ -97,36 +97,48 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         painelMenu.setPreferredSize(new java.awt.Dimension(200, 480));
         painelMenu.setLayout(new java.awt.GridBagLayout());
 
-        botaoVerTrilhas.setText("Ver Trilhas");
+        botaoVerTrilhas.setText("<html><div style=\"text-align:center\">Ver Trilhas");
+        botaoVerTrilhas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botaoVerTrilhas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botaoVerTrilhas.setPreferredSize(new java.awt.Dimension(120, 50));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(25, 40, 25, 40);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         painelMenu.add(botaoVerTrilhas, gridBagConstraints);
 
-        botaoSelecionarConteudo.setText("Selecionar Conteúdo");
+        botaoSelecionarConteudo.setText("<html><div style=\"text-align:center\">Selecionar Conteúdo");
+        botaoSelecionarConteudo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botaoSelecionarConteudo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botaoSelecionarConteudo.setPreferredSize(new java.awt.Dimension(120, 50));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(25, 40, 25, 40);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         painelMenu.add(botaoSelecionarConteudo, gridBagConstraints);
 
-        botaoPerguntar.setText("Pergunte ao Sistema");
+        botaoPerguntar.setText("<html><div style=\"text-align:center\">Pergunte ao Sistema");
+        botaoPerguntar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botaoPerguntar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botaoPerguntar.setPreferredSize(new java.awt.Dimension(120, 50));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(25, 40, 25, 40);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         painelMenu.add(botaoPerguntar, gridBagConstraints);
 
-        botaoAjuda.setText("Ajuda");
+        botaoAjuda.setText("<html><div style=\"text-align:center\">Ajuda");
+        botaoAjuda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botaoAjuda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botaoAjuda.setPreferredSize(new java.awt.Dimension(120, 50));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(25, 40, 25, 40);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         painelMenu.add(botaoAjuda, gridBagConstraints);
 
         painelUsuário.setMinimumSize(new java.awt.Dimension(100, 120));
@@ -136,16 +148,13 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
 
         labelPicUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelPicUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/userpic100.png"))); // NOI18N
-        labelPicUsuario.setMaximumSize(new java.awt.Dimension(100, 100));
-        labelPicUsuario.setMinimumSize(new java.awt.Dimension(100, 100));
-        labelPicUsuario.setPreferredSize(new java.awt.Dimension(100, 100));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         painelUsuário.add(labelPicUsuario, gridBagConstraints);
 
-        labelNomeUsuario.setText("Nome do Ususário");
+        labelNomeUsuario.setText("Nome do Usuário");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -158,14 +167,14 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         gridBagConstraints.insets = new java.awt.Insets(15, 40, 15, 40);
         painelMenu.add(painelUsuário, gridBagConstraints);
 
-        botaoLogout.setText("Logout");
+        botaoLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logout.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         painelMenu.add(botaoLogout, gridBagConstraints);
 
-        botaoConfiguracoes.setText("Setup");
+        botaoConfiguracoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gear_in.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;

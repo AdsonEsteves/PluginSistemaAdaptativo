@@ -9,14 +9,12 @@ import br.univali.portugol.plugin.maspath.telas.SelecaoConteudo;
 import br.univali.portugol.plugin.maspath.telas.painelLogin;
 import br.univali.portugol.plugin.maspath.telas.painelMenuPrincipal;
 import br.univali.ps.ui.telas.TelaCustomBorder;
-import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Adson
  */
 public class ControladorDeJanelas {
-    TelaCustomBorder janelaPrincipal;
     TelaCustomBorder janelaLogin;
     TelaCustomBorder janelaMenuPrincipal;
     SelecaoConteudo painelConteudos;
@@ -30,7 +28,6 @@ public class ControladorDeJanelas {
         painelMenuPrincipa1 = new painelMenuPrincipal();
         janelaLogin = new TelaCustomBorder(painelLogin, "Faça seu Login");
         janelaMenuPrincipal = new TelaCustomBorder(painelMenuPrincipa1, "Menu Principal");
-        janelaPrincipal = janelaLogin;
     }
     
     public static ControladorDeJanelas getInstance()
@@ -45,32 +42,24 @@ public class ControladorDeJanelas {
     
     public void showjanelaPrincipal()
     {
-        janelaPrincipal.repaint();
-        janelaPrincipal.revalidate();
-        janelaPrincipal.pack();
-        janelaPrincipal.setLocationRelativeTo(null);
-        janelaPrincipal.setVisible(true);
-        
+        janelaLogin.setLocationRelativeTo(null);
+        janelaLogin.setVisible(true);
     }
     
     public void closejanelaPrincipal()
     {
-        janelaPrincipal.setVisible(false);
-        
+        janelaLogin.setVisible(false);        
     }
     
     public void showJanelaMenuPrincipal()
     {
-        janelaMenuPrincipal.repaint();
-        janelaMenuPrincipal.revalidate();
-        janelaMenuPrincipal.pack();        
         janelaMenuPrincipal.setLocationRelativeTo(null);
         janelaMenuPrincipal.setVisible(true);
     }
     
     public void closeJanelaMenuPrincipal()
     {
-        janelaMenuPrincipal.setVisible(false);      
+        janelaMenuPrincipal.setVisible(false);
     }
     
 }

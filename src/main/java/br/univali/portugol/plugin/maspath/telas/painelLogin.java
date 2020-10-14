@@ -32,7 +32,7 @@ public class painelLogin extends javax.swing.JPanel implements Themeable{
         labelCriarConta.setForeground(ColorController.COR_LETRA_TITULO);
         if(WeblafUtils.weblafEstaInstalado())
         {
-            WeblafUtils.configurarBotao(botaoLogin, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2, true);
+            WeblafUtils.configurarBotao(botaoLogin, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2, true);
             WeblafUtils.configuraWebLaf(CampoLogin);
             WeblafUtils.configuraWebLaf(campoSenha);
         }
@@ -63,10 +63,11 @@ public class painelLogin extends javax.swing.JPanel implements Themeable{
 
         painelbotaoLogin.setMinimumSize(new java.awt.Dimension(300, 140));
         painelbotaoLogin.setOpaque(false);
-        painelbotaoLogin.setPreferredSize(new java.awt.Dimension(300, 80));
+        painelbotaoLogin.setPreferredSize(new java.awt.Dimension(300, 140));
         painelbotaoLogin.setLayout(new java.awt.GridBagLayout());
 
         botaoLogin.setText("Login");
+        botaoLogin.setPreferredSize(new java.awt.Dimension(120, 50));
         botaoLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoLoginActionPerformed(evt);

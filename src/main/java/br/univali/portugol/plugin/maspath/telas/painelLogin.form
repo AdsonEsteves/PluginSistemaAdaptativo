@@ -31,7 +31,7 @@
         </Property>
         <Property name="opaque" type="boolean" value="false"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[300, 80]"/>
+          <Dimension value="[300, 140]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -45,6 +45,9 @@
         <Component class="com.alee.laf.button.WebButton" name="botaoLogin">
           <Properties>
             <Property name="text" type="java.lang.String" value="Login"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[120, 50]"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoLoginActionPerformed"/>

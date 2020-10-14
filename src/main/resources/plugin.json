@@ -1,0 +1,11 @@
+{
+	"nome": "MASPath-Plugin",
+	"versao": "1.0.0",
+	"classe": "br.univali.portugol.plugin.maspath.PluginExemplo",
+	"descricao": "Plugin de Sistema Adaptativo",
+	"autores": [{
+			"nome": "Adson Marques da Silva Esteves",
+			"email": "shinadson@gmail.com"
+		}
+	]
+}

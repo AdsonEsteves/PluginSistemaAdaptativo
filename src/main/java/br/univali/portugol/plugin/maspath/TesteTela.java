@@ -16,6 +16,8 @@ public class TesteTela {
      */
     public static void main(String[] args) {        
         ControladorDeJanelas.getInstance().showjanelaPrincipal();
+        //ControladorDeJanelas cdj = new ControladorDeJanelas();
+       // cdj.showjanelaPrincipal();
     }
     
 }
