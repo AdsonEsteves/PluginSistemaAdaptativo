@@ -92,7 +92,7 @@ public class Student {
         StringBuilder builder = new StringBuilder();
 
         for (String preferencia : preferencias) {
-            builder.append(preferencia+",");
+            builder.append("'"+preferencia+"',");
         }
         
         if(!preferencias.isEmpty())
@@ -146,7 +146,7 @@ public class Student {
             ", genero:'" + genero + "'" +
             ", idade:" + idade + "" +
             ", nivelEducacional:'" + nivelEducacional + "'" +
-            ", preferencias:" + preferencias + "" +
+            ", preferencias:[" + getPreferenciasAsString() + "]" +
             ", trilha:" + trilha + "" +
             ", exerciciosResolvidos:" + exerciciosResolvidos + "" +
             ", tempoResolucao:" + tempoResolucao + "" +

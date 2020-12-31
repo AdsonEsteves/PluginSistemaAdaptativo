@@ -16,19 +16,24 @@ public class ConexaoHTTP {
     public static String fazerRequest(String endpoint, String HTTPMethod, JSONObject parameter)
     {
         try {
-            System.out.println("JSON "+parameter.toString());
+            
             URL url =  new URL(urlBase+endpoint);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(HTTPMethod);
             connection.setDoOutput(true);
-            connection.setRequestProperty("accept", "application/json");
-            connection.setRequestProperty("Content-Type", "application/json; utf-8");
-            byte[] out = parameter.toString().getBytes("UTF-8");
-            int length = out.length;
+            if(parameter!=null)
+            {
+                connection.setRequestProperty("accept", "application/json");
+                connection.setRequestProperty("Content-Type", "application/json; utf-8");
+                
+                System.out.println("JSON "+parameter.toString());
+                byte[] out = parameter.toString().getBytes("UTF-8");
+                int length = out.length;
 
-            connection.setFixedLengthStreamingMode(length);
-            try(OutputStream os = connection.getOutputStream()) {
-                os.write(out);
+                connection.setFixedLengthStreamingMode(length);
+                try(OutputStream os = connection.getOutputStream()) {
+                    os.write(out);
+                }
             }
             connection.connect();
             InputStream response = connection.getInputStream();
