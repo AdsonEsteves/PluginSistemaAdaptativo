@@ -12,10 +12,23 @@ public class InterfaceComunicacao {
     public InterfaceComunicacao() {
         super();
     }    
+    
     public String criarAluno(String aluno)
     {
         // String response = ConexaoHTTP.fazerRequest("/interface/conteudos", "POST", new JSONObject(aluno));
         String response = ConexaoHTTP.fazerRequest("/tutor/requisitaConteudos", "GET", null);
+        return response.toString();
+    }
+    
+    public String fazerLogin(String dados)
+    {
+        String response = ConexaoHTTP.fazerRequest("/interface/login", "GET", new JSONObject(dados));
+        return response.toString();
+    }
+
+    public String requisitaConteudos(String porta)
+    {
+        String response = ConexaoHTTP.fazerRequest("/tutor/requisitaConteudos/"+porta, "GET", null);
         return response.toString();
     }
     
@@ -48,13 +61,19 @@ public class InterfaceComunicacao {
         //     "'conteudo':"+
         //     "{'nome':'VETOR CARRO', 'topico':'VETORES'}"+
         //     "}";
+        // String dados = "{"+
+        //     "'conteudoRelacionado':'JogoDaVelha',"+
+        //     "'valorRelacao': -25,"+
+        //     "'conteudo':"+
+        //     content.toString()+
+        //     "}";
         String dados = "{"+
-            "'conteudoRelacionado':'JogoDaVelha',"+
-            "'valorRelacao': -25,"+
-            "'conteudo':"+
-            content.toString()+
+            "'usuario':'l4yhU9z2bx',"+
+            "'senha': 'wMCPoOVLAw',"+
             "}";
         InterfaceComunicacao intercom = new InterfaceComunicacao();
-        System.out.println(intercom.criarAluno(dados));        
+        String porta = intercom.fazerLogin(dados);
+        System.out.println("PORTA: "+porta);
+        System.out.println(intercom.requisitaConteudos(porta)); 
     }
 }
