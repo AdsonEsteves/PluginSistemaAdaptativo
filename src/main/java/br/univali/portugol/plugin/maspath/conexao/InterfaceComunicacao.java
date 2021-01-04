@@ -25,6 +25,12 @@ public class InterfaceComunicacao {
         String response = ConexaoHTTP.fazerRequest("/interface/login", "GET", new JSONObject(dados));
         return response.toString();
     }
+    
+    public String deslogar(String porta)
+    {
+        String response = ConexaoHTTP.fazerRequest("/interface/logout/"+porta, "POST", null);
+        return response.toString();
+    }
 
     public String requisitaConteudos(String porta)
     {
@@ -33,7 +39,7 @@ public class InterfaceComunicacao {
     }
     
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Student student = new Student("Rafaelf", "edwdwd", "trgrtgrt", "homem", 24, "ensino médio", new ArrayList<String>(){{
             add("Mangá");
             add("Memes");
@@ -74,6 +80,8 @@ public class InterfaceComunicacao {
         InterfaceComunicacao intercom = new InterfaceComunicacao();
         String porta = intercom.fazerLogin(dados);
         System.out.println("PORTA: "+porta);
-        System.out.println(intercom.requisitaConteudos(porta)); 
+        System.out.println(intercom.requisitaConteudos(porta));
+        Thread.sleep(2000);
+        System.out.println(intercom.deslogar(porta));
     }
 }
