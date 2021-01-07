@@ -5,6 +5,7 @@ import java.util.List;
 public class Content{
     
     private String name;
+    private String descricao;
     private String topic;
     private int difficulty;
     private String complexity;
@@ -13,6 +14,7 @@ public class Content{
     private List<String> tags;
     private String link;
     private int level;
+    private String imageLink;
 
     public int pontos = 0;
 
@@ -21,8 +23,9 @@ public class Content{
     }
 
 
-    public Content(String name, int level, String topic, int difficulty, String complexity, boolean exercise, String taxonomy, List<String> tags, String link) {
+    public Content(String name, String descricao, int level, String topic, int difficulty, String complexity, boolean exercise, String taxonomy, List<String> tags, String link, String imageLink) {
         this.name = name;
+        this.descricao = descricao;
         this.topic = topic;
         this.difficulty = difficulty;
         this.complexity = complexity;
@@ -31,6 +34,7 @@ public class Content{
         this.tags = tags;
         this.link = link;
         this.level = level;
+        this.imageLink = imageLink;
     }
 
     public String getName() {
@@ -41,6 +45,14 @@ public class Content{
         this.name = name;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+    
     public String getTopic() {
         return this.topic;
     }
@@ -123,6 +135,14 @@ public class Content{
         this.level = level;
     }
 
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+    
     @Override
     public String toString() {
         return "{" +

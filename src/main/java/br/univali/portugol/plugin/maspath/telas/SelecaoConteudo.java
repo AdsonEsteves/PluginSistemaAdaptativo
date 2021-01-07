@@ -5,127 +5,169 @@
  */
 package br.univali.portugol.plugin.maspath.telas;
 
+import br.univali.portugol.plugin.maspath.dataentities.Content;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.Themeable;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
+import br.univali.ps.ui.utils.FabricaDicasInterface;
 import com.alee.extended.layout.WrapFlowLayout;
-import java.awt.Dimension;
+import com.alee.laf.button.WebButton;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.plaf.ComboBoxUI;
-import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 
 /**
  *
- * @author Adson
+ * @author Space Today
  */
 public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
-
+    
+    List<Content> conteudos = new ArrayList<>();
+    
     /**
-     * Creates new form selecaoConteudo
+     * Creates new form SelecaoConteudo
      */
-    
-    List<conteudoPane> conteudos;
-    List<conteudoPane> conteudosRecomendados;
-    
-    
     public SelecaoConteudo() {
         initComponents();
         configurarCores();
-        conteudos = new ArrayList<>();
-        conteudosRecomendados = new ArrayList<>();
-        selectablePane.setLayout(new WrapFlowLayout(false, 5, 5));
-        setComboBoxes();
-        setConteudos();
-        adicionarConteudos();
+        painelItensBuscados.setLayout(new WrapFlowLayout(false, 2, 2));
     }
-    
+
     @Override
     public void configurarCores() {
         this.setBackground(ColorController.FUNDO_MEDIO);
-        selectablePane.setBackground(ColorController.FUNDO_CLARO);
-        recommendContentPane.setBackground(ColorController.FUNDO_CLARO);
-        tipoLabel.setForeground(ColorController.COR_LETRA);
-        temaLabel.setForeground(ColorController.COR_LETRA);
-        dificuldadeLabel.setForeground(ColorController.COR_LETRA);
-        nivellLabel.setForeground(ColorController.COR_LETRA);
-        recommendTitleLabel.setForeground(ColorController.COR_LETRA);
-        choiceLabel.setForeground(ColorController.COR_LETRA);
+        this.labelDificuldade.setForeground(ColorController.COR_LETRA_TITULO);
+        this.labelNivel.setForeground(ColorController.COR_LETRA);
+        this.labelTaxonomia.setForeground(ColorController.COR_LETRA);
+        this.labelTemas.setForeground(ColorController.COR_LETRA);
+        this.labelTopico.setForeground(ColorController.COR_LETRA);
+        
+        this.campoDeBusca.setBackground(ColorController.FUNDO_CLARO);
+        this.jScrollPane1.getViewport().setBackground(ColorController.FUNDO_CLARO);
+        
+        
         if(WeblafUtils.weblafEstaInstalado())
         {
-            WeblafUtils.configuraWebLaf(choiceScrollPane);
-            WeblafUtils.configuraWebLaf(recommendScrollPane);
+            WeblafUtils.configurarBotao(botaoBuscar, ColorController.COR_LETRA, ColorController.COR_PRINCIPAL,
+                                        ColorController.COR_LETRA, ColorController.COR_DESTAQUE, 1, true);
+            WeblafUtils.configuraWebLaf(checkBoxExercicio);
+            WeblafUtils.configuraWebLaf(jScrollPane1);
         }
-        
-        
-        comboxdificuldade.setExpandedBgColor(ColorController.FUNDO_CLARO);
-        comboxdificuldade.setBackground(ColorController.FUNDO_CLARO);
-        comboxdificuldade.setForeground(ColorController.COR_LETRA);
-        comboxdificuldade.setWebColoredBackground(false);
-        
-        comboxnivel.setExpandedBgColor(ColorController.FUNDO_CLARO);
-        comboxnivel.setBackground(ColorController.FUNDO_CLARO);
-        comboxnivel.setForeground(ColorController.COR_LETRA);
-        comboxnivel.setWebColoredBackground(false);
-        
-        comboxtema.setExpandedBgColor(ColorController.FUNDO_CLARO);
-        comboxtema.setBackground(ColorController.FUNDO_CLARO);
-        comboxtema.setForeground(ColorController.COR_LETRA);
-        comboxtema.setWebColoredBackground(false);
-        
-        comboxtipo.setExpandedBgColor(ColorController.FUNDO_CLARO);
-        comboxtipo.setBackground(ColorController.FUNDO_CLARO);
-        comboxtipo.setForeground(ColorController.COR_LETRA);
-        comboxtipo.setWebColoredBackground(false);
-        
-        choiceScrollPane.setBorder(null);
-        recommendScrollPane.setBorder(null);
     }
+    
+    public void addContents(JsonNode json)
+    {   
+        painelItensBuscados.removeAll();
+        ObjectMapper mapper = new ObjectMapper();
+        for (JsonNode jsonNode : json) {
+            try 
+            {
+                Content conteudo = mapper.treeToValue(json, Content.class);
+                WebButton button = new WebButton(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //abrirConteudo
+                    }
+                });
+                
+                if(conteudo.getName().length()>15){
+                    button.setText(conteudo.getName().substring(0, 11)+"...");
+                }else{
+                    button.setText(conteudo.getName());
+                }
+                
+                ImageIcon gif = new ImageIcon(new URL(conteudo.getImageLink()));
+                gif = new ImageIcon(gif.getImage().getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH));
+                
+                button.setHorizontalAlignment(SwingConstants.CENTER);
+                button.setVerticalAlignment(SwingConstants.CENTER);
+                button.setHorizontalTextPosition(SwingConstants.CENTER);
+                button.setVerticalTextPosition(SwingConstants.BOTTOM);
+                WeblafUtils.configurarBotao(button,ColorController.TRANSPARENTE, ColorController.COR_LETRA_TITULO, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 5);
+                FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
+                button.setIcon(gif);
+                painelItensBuscados.add(button);
+                conteudos.add(conteudo);
+                
+            } catch (JsonProcessingException ex) {
+                Logger.getLogger(SelecaoConteudo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(SelecaoConteudo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void addFakeContents()
+    {
+        painelItensBuscados.removeAll();
+        try {
+            for (int i = 0; i < 30; i++) {
+                Content conteudo = new Content("nome", "descricao", i%5, "Tópico", i%3, "Complexidade", true, "Taxonomia", new ArrayList<String>(), "Link", "https://i.4cdn.org/vg/1610038753760.jpg");
+                WebButton button = new WebButton(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //abrirConteudo
+                    }
+                });
+                if(conteudo.getName().length()>15){
+                    button.setText(conteudo.getName().substring(0, 11)+"...");
+                }else{
+                    button.setText(conteudo.getName());
+                }
+                
+                button.setHorizontalAlignment(SwingConstants.CENTER);
+                button.setVerticalAlignment(SwingConstants.CENTER);
+                button.setHorizontalTextPosition(SwingConstants.CENTER);
+                button.setVerticalTextPosition(SwingConstants.BOTTOM);
+                WeblafUtils.configurarBotao(button,ColorController.TRANSPARENTE, ColorController.COR_LETRA_TITULO, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2);
+                FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
+                painelItensBuscados.add(button);
+                conteudos.add(conteudo);
+                ImageWorker img = new ImageWorker(new URL("https://i.4cdn.org/vg/1610038753760.jpg"), button);
+                img.execute();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(SelecaoConteudo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public class ImageWorker extends SwingWorker<ImageIcon, Void>{
 
-    public void setConteudos()
-    {
-        //conteudos.add(new conteudoPane("Olá Mundo"));
-        conteudos.add(new conteudoPane("Operacoes Simples"));
-        conteudos.add(new conteudoPane("Prioridades"));
-        conteudos.add(new conteudoPane("Altura Média"));
-        conteudos.add(new conteudoPane("MiniCalculadora"));
-        conteudos.add(new conteudoPane("Factorial"));
-        
-        conteudosRecomendados.add(new conteudoPane("Velocidade Média"));
-        conteudosRecomendados.add(new conteudoPane("Gravidade"));
-    }
-    
-    public void adicionarConteudos()
-    {
-        for (conteudoPane conteudo : conteudos) {
-            selectablePane.add(conteudo);
+        URL imageURL;
+        ImageIcon brandImage;
+        WebButton device;
+
+        public ImageWorker(URL imageURL, WebButton device){
+            this.imageURL = imageURL;
+            this.device = device;
         }
-        
-        for (conteudoPane conteudo : conteudosRecomendados) {
-            recommendContentPane.add(conteudo);
+
+        @Override
+        protected ImageIcon doInBackground() throws Exception {
+            brandImage = new ImageIcon(imageURL);
+            Image rawBrandImage = brandImage.getImage();
+            Image newimg = rawBrandImage.getScaledInstance(103, 103,  java.awt.Image.SCALE_SMOOTH);
+            brandImage = new ImageIcon(newimg);
+            return brandImage;
         }
-        //setPreferredSize(new Dimension(506, 356));
-    }
-    
-    public void setComboBoxes()
-    {
-        comboxdificuldade.addItem("Fácil");
-        comboxdificuldade.addItem("Médio");
-        comboxdificuldade.addItem("Dificil");
-        
-        comboxnivel.addItem("1");
-        comboxnivel.addItem("2");
-        comboxnivel.addItem("3");
-        comboxnivel.addItem("4");
-        
-        comboxtipo.addItem("Exercício");
-        comboxtipo.addItem("Material");
-        comboxtipo.addItem("Video");
-        
-        comboxtema.addItem("Matemática");
-        comboxtema.addItem("Física");
-        
-    }
+
+        @Override
+        protected void done() {
+            device.setIcon(brandImage);
+          }
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -136,190 +178,186 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        recommedPanel = new javax.swing.JPanel();
-        recommendTitlePanel = new javax.swing.JPanel();
-        recommendTitleLabel = new javax.swing.JLabel();
-        recommendScrollPane = new javax.swing.JScrollPane();
-        recommendContentPane = new javax.swing.JPanel();
-        choicePane = new javax.swing.JPanel();
-        choiceTitlePane = new javax.swing.JPanel();
-        choiceLabel = new javax.swing.JLabel();
-        choiceScrollPane = new javax.swing.JScrollPane();
-        selectablePane = new javax.swing.JPanel();
-        paneFilter = new javax.swing.JPanel();
-        tipoLabel = new javax.swing.JLabel();
-        comboxtipo = new com.alee.laf.combobox.WebComboBox();
-        nivellLabel = new javax.swing.JLabel();
-        comboxnivel = new com.alee.laf.combobox.WebComboBox();
-        dificuldadeLabel = new javax.swing.JLabel();
-        comboxdificuldade = new com.alee.laf.combobox.WebComboBox();
-        temaLabel = new javax.swing.JLabel();
-        comboxtema = new com.alee.laf.combobox.WebComboBox();
+        painelBusca = new javax.swing.JPanel();
+        campoDeBusca = new javax.swing.JTextField();
+        botaoBuscar = new com.alee.laf.button.WebButton();
+        comboBoxTags = new javax.swing.JComboBox<>();
+        labelDificuldade = new javax.swing.JLabel();
+        labelTaxonomia = new javax.swing.JLabel();
+        labelNivel = new javax.swing.JLabel();
+        labelTopico = new javax.swing.JLabel();
+        comboBoxTopico = new javax.swing.JComboBox<>();
+        comboBoxTaxonomia = new javax.swing.JComboBox<>();
+        comboBoxNivel = new javax.swing.JComboBox<>();
+        comboBoxDificuldade = new javax.swing.JComboBox<>();
+        checkBoxExercicio = new javax.swing.JCheckBox();
+        painelScrollTags = new javax.swing.JScrollPane();
+        labelTemas = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        painelItensBuscados = new javax.swing.JPanel();
 
-        setMaximumSize(new java.awt.Dimension(463, 306));
+        setMaximumSize(new java.awt.Dimension(610, 480));
+        setMinimumSize(new java.awt.Dimension(610, 480));
+        setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(610, 480));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
-        recommedPanel.setMaximumSize(new java.awt.Dimension(470, 117));
-        recommedPanel.setOpaque(false);
+        painelBusca.setMaximumSize(new java.awt.Dimension(610, 120));
+        painelBusca.setOpaque(false);
+        painelBusca.setPreferredSize(new java.awt.Dimension(610, 120));
 
-        recommendTitlePanel.setOpaque(false);
+        campoDeBusca.setText("digite um nome");
 
-        recommendTitleLabel.setText("Selecione um conte?do recomendado:");
+        botaoBuscar.setText("Buscar");
 
-        javax.swing.GroupLayout recommendTitlePanelLayout = new javax.swing.GroupLayout(recommendTitlePanel);
-        recommendTitlePanel.setLayout(recommendTitlePanelLayout);
-        recommendTitlePanelLayout.setHorizontalGroup(
-            recommendTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(recommendTitlePanelLayout.createSequentialGroup()
-                .addComponent(recommendTitleLabel)
-                .addGap(0, 260, Short.MAX_VALUE))
-        );
-        recommendTitlePanelLayout.setVerticalGroup(
-            recommendTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(recommendTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        comboBoxTags.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        recommendScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        labelDificuldade.setText("Dificuldade");
 
-        recommendContentPane.setLayout(new java.awt.FlowLayout(0));
-        recommendScrollPane.setViewportView(recommendContentPane);
+        labelTaxonomia.setText("Taxonomia");
 
-        javax.swing.GroupLayout recommedPanelLayout = new javax.swing.GroupLayout(recommedPanel);
-        recommedPanel.setLayout(recommedPanelLayout);
-        recommedPanelLayout.setHorizontalGroup(
-            recommedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(recommedPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(recommedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(recommendScrollPane)
-                    .addGroup(recommedPanelLayout.createSequentialGroup()
-                        .addComponent(recommendTitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 8, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        recommedPanelLayout.setVerticalGroup(
-            recommedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(recommedPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(recommendTitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(recommendScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        labelNivel.setText("Nivel");
 
-        add(recommedPanel);
+        labelTopico.setText("Tópico");
 
-        choicePane.setMaximumSize(new java.awt.Dimension(470, 32767));
-        choicePane.setOpaque(false);
-        choicePane.setPreferredSize(new java.awt.Dimension(470, 192));
+        comboBoxTopico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        choiceTitlePane.setOpaque(false);
+        comboBoxTaxonomia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        choiceLabel.setText("ou Escolha seu pr?prio conte?do:");
+        comboBoxNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        javax.swing.GroupLayout choiceTitlePaneLayout = new javax.swing.GroupLayout(choiceTitlePane);
-        choiceTitlePane.setLayout(choiceTitlePaneLayout);
-        choiceTitlePaneLayout.setHorizontalGroup(
-            choiceTitlePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(choiceTitlePaneLayout.createSequentialGroup()
-                .addComponent(choiceLabel)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        choiceTitlePaneLayout.setVerticalGroup(
-            choiceTitlePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(choiceTitlePaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(choiceLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        comboBoxDificuldade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        choiceScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        selectablePane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        selectablePane.setMaximumSize(new java.awt.Dimension(440, 112));
-        choiceScrollPane.setViewportView(selectablePane);
-
-        paneFilter.setOpaque(false);
-        paneFilter.setLayout(new java.awt.FlowLayout(0));
-
-        tipoLabel.setText("Tipo");
-        paneFilter.add(tipoLabel);
-
-        comboxtipo.setBackground(new java.awt.Color(102, 255, 0));
-        comboxtipo.addActionListener(new java.awt.event.ActionListener() {
+        checkBoxExercicio.setText("exercicio");
+        checkBoxExercicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboxtipoActionPerformed(evt);
+                checkBoxExercicioActionPerformed(evt);
             }
         });
-        paneFilter.add(comboxtipo);
 
-        nivellLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        nivellLabel.setText("N?vel");
-        paneFilter.add(nivellLabel);
-        paneFilter.add(comboxnivel);
+        labelTemas.setText("Temas");
 
-        dificuldadeLabel.setText("Dificuldade");
-        paneFilter.add(dificuldadeLabel);
-        paneFilter.add(comboxdificuldade);
-
-        temaLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        temaLabel.setText("Temas");
-        paneFilter.add(temaLabel);
-        paneFilter.add(comboxtema);
-
-        javax.swing.GroupLayout choicePaneLayout = new javax.swing.GroupLayout(choicePane);
-        choicePane.setLayout(choicePaneLayout);
-        choicePaneLayout.setHorizontalGroup(
-            choicePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, choicePaneLayout.createSequentialGroup()
+        javax.swing.GroupLayout painelBuscaLayout = new javax.swing.GroupLayout(painelBusca);
+        painelBusca.setLayout(painelBuscaLayout);
+        painelBuscaLayout.setHorizontalGroup(
+            painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelBuscaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(choicePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(choiceTitlePane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(paneFilter, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-                    .addComponent(choiceScrollPane))
+                .addGroup(painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelBuscaLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(campoDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(botaoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelBuscaLayout.createSequentialGroup()
+                        .addGroup(painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelTopico)
+                            .addComponent(labelNivel))
+                        .addGap(18, 18, 18)
+                        .addGroup(painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(painelBuscaLayout.createSequentialGroup()
+                                .addComponent(comboBoxTopico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(labelTaxonomia)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(comboBoxTaxonomia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(painelBuscaLayout.createSequentialGroup()
+                                .addComponent(comboBoxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(labelDificuldade)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(comboBoxDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(painelBuscaLayout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(labelTemas)
+                                .addGap(18, 18, 18)
+                                .addComponent(comboBoxTags, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(painelBuscaLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(checkBoxExercicio)))
+                        .addGap(18, 18, 18)
+                        .addComponent(painelScrollTags)))
                 .addContainerGap())
         );
-        choicePaneLayout.setVerticalGroup(
-            choicePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(choicePaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(choiceTitlePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(paneFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(choiceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        painelBuscaLayout.setVerticalGroup(
+            painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelBuscaLayout.createSequentialGroup()
+                .addGroup(painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelBuscaLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(campoDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelBuscaLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(painelScrollTags)
+                            .addGroup(painelBuscaLayout.createSequentialGroup()
+                                .addGroup(painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(labelTaxonomia)
+                                    .addComponent(comboBoxTopico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboBoxTaxonomia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelTopico)
+                                    .addComponent(labelTemas)
+                                    .addComponent(comboBoxTags))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(painelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(comboBoxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labelDificuldade)
+                                        .addComponent(comboBoxDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(checkBoxExercicio))
+                                    .addComponent(labelNivel))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botaoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(373, 373, 373))
         );
 
-        add(choicePane);
+        add(painelBusca);
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(600, 350));
+
+        painelItensBuscados.setOpaque(false);
+
+        javax.swing.GroupLayout painelItensBuscadosLayout = new javax.swing.GroupLayout(painelItensBuscados);
+        painelItensBuscados.setLayout(painelItensBuscadosLayout);
+        painelItensBuscadosLayout.setHorizontalGroup(
+            painelItensBuscadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 598, Short.MAX_VALUE)
+        );
+        painelItensBuscadosLayout.setVerticalGroup(
+            painelItensBuscadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 468, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(painelItensBuscados);
+
+        add(jScrollPane1);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comboxtipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboxtipoActionPerformed
+    private void checkBoxExercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxExercicioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_comboxtipoActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel choiceLabel;
-    private javax.swing.JPanel choicePane;
-    private javax.swing.JScrollPane choiceScrollPane;
-    private javax.swing.JPanel choiceTitlePane;
-    private com.alee.laf.combobox.WebComboBox comboxdificuldade;
-    private com.alee.laf.combobox.WebComboBox comboxnivel;
-    private com.alee.laf.combobox.WebComboBox comboxtema;
-    private com.alee.laf.combobox.WebComboBox comboxtipo;
-    private javax.swing.JLabel dificuldadeLabel;
-    private javax.swing.JLabel nivellLabel;
-    private javax.swing.JPanel paneFilter;
-    private javax.swing.JPanel recommedPanel;
-    private javax.swing.JPanel recommendContentPane;
-    private javax.swing.JScrollPane recommendScrollPane;
-    private javax.swing.JLabel recommendTitleLabel;
-    private javax.swing.JPanel recommendTitlePanel;
-    private javax.swing.JPanel selectablePane;
-    private javax.swing.JLabel temaLabel;
-    private javax.swing.JLabel tipoLabel;
-    // End of variables declaration//GEN-END:variables
+    }//GEN-LAST:event_checkBoxExercicioActionPerformed
 
     
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.alee.laf.button.WebButton botaoBuscar;
+    private javax.swing.JTextField campoDeBusca;
+    private javax.swing.JCheckBox checkBoxExercicio;
+    private javax.swing.JComboBox<String> comboBoxDificuldade;
+    private javax.swing.JComboBox<String> comboBoxNivel;
+    private javax.swing.JComboBox<String> comboBoxTags;
+    private javax.swing.JComboBox<String> comboBoxTaxonomia;
+    private javax.swing.JComboBox<String> comboBoxTopico;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelDificuldade;
+    private javax.swing.JLabel labelNivel;
+    private javax.swing.JLabel labelTaxonomia;
+    private javax.swing.JLabel labelTemas;
+    private javax.swing.JLabel labelTopico;
+    private javax.swing.JPanel painelBusca;
+    private javax.swing.JPanel painelItensBuscados;
+    private javax.swing.JScrollPane painelScrollTags;
+    // End of variables declaration//GEN-END:variables
 }

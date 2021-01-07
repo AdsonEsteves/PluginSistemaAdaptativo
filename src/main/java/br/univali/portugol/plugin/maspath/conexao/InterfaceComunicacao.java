@@ -2,10 +2,12 @@ package br.univali.portugol.plugin.maspath.conexao;
 
 import java.util.ArrayList;
 
-import org.json.JSONObject;
 
 import br.univali.portugol.plugin.maspath.dataentities.Content;
 import br.univali.portugol.plugin.maspath.dataentities.Student;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class InterfaceComunicacao {
 
@@ -15,14 +17,13 @@ public class InterfaceComunicacao {
     
     public String criarAluno(String aluno)
     {
-        // String response = ConexaoHTTP.fazerRequest("/interface/conteudos", "POST", new JSONObject(aluno));
         String response = ConexaoHTTP.fazerRequest("/tutor/requisitaConteudos", "GET", null);
         return response.toString();
     }
     
-    public String fazerLogin(String dados)
+    public String fazerLogin(String dados) throws Exception
     {
-        String response = ConexaoHTTP.fazerRequest("/interface/login", "GET", new JSONObject(dados));
+        String response = ConexaoHTTP.fazerRequest("/interface/login", "GET", new ObjectMapper().readTree(dados));
         return response.toString();
     }
     
@@ -39,17 +40,17 @@ public class InterfaceComunicacao {
     }
     
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, JsonProcessingException, Exception {
         Student student = new Student("Rafaelf", "edwdwd", "trgrtgrt", "homem", 24, "ensino médio", new ArrayList<String>(){{
             add("Mangá");
             add("Memes");
             add("Programação");
         }});
-        Content content = new Content("Xadrez", 1, "Matrizes", 1, "graduação", true, "Analise", new ArrayList<String>(){{
+        Content content = new Content("Xadrez", "Descricao", 1, "Matrizes", 1, "graduação", true, "Analise", new ArrayList<String>(){{
             add("Tabuleiro");
             add("Jogos");
             add("Entrada e Saida");
-        }}, "link");
+        }}, "link", "link2");
         // String dados = "{"+
         //     "'nome':'Andre',"+
         //     "'cliques':["+

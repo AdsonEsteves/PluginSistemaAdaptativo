@@ -6,15 +6,17 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 
 public class ConexaoHTTP {
     
     private static String urlBase = "http://localhost:8080";
 
-    public static String fazerRequest(String endpoint, String HTTPMethod, JSONObject parameter)
+    public static String fazerRequest(String endpoint, String HTTPMethod, JsonNode parameter)
     {
+        
         try {
             
             URL url =  new URL(urlBase+endpoint);

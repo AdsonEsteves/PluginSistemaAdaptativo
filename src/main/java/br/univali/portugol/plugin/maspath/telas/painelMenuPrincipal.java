@@ -31,6 +31,7 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         initComponents();
         configurarCores();
         configuraPainel();
+        this.selecaoConteudo1.setVisible(false);
     }
     
     private void configuraPainel()
@@ -40,7 +41,7 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
 
     @Override
     public void configurarCores() {
-        this.setBackground(ColorController.COR_PRINCIPAL);
+        this.setBackground(ColorController.FUNDO_CLARO);
         painelUsuário.setBackground(ColorController.COR_DESTAQUE);
         labelPicUsuario.setForeground(ColorController.COR_LETRA);
         labelNomeUsuario.setForeground(ColorController.COR_LETRA);
@@ -86,7 +87,9 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         labelNomeUsuario = new javax.swing.JLabel();
         botaoLogout = new com.alee.laf.button.WebButton();
         botaoConfiguracoes = new com.alee.laf.button.WebButton();
+        painelAmostragem = new javax.swing.JPanel();
         painelTrilha = new javax.swing.JPanel();
+        selecaoConteudo1 = new br.univali.portugol.plugin.maspath.telas.SelecaoConteudo();
 
         setMinimumSize(new java.awt.Dimension(810, 480));
         setPreferredSize(new java.awt.Dimension(810, 480));
@@ -112,6 +115,11 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         botaoSelecionarConteudo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botaoSelecionarConteudo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         botaoSelecionarConteudo.setPreferredSize(new java.awt.Dimension(120, 50));
+        botaoSelecionarConteudo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoSelecionarConteudoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -187,16 +195,33 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         add(painelMenu, gridBagConstraints);
 
+        painelAmostragem.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 4));
+        painelAmostragem.setMaximumSize(new java.awt.Dimension(610, 480));
+        painelAmostragem.setMinimumSize(new java.awt.Dimension(610, 480));
+        painelAmostragem.setOpaque(false);
+        painelAmostragem.setPreferredSize(new java.awt.Dimension(610, 480));
+        painelAmostragem.setLayout(new java.awt.BorderLayout());
+
+        painelTrilha.setMaximumSize(new java.awt.Dimension(610, 480));
         painelTrilha.setMinimumSize(new java.awt.Dimension(610, 480));
         painelTrilha.setOpaque(false);
         painelTrilha.setPreferredSize(new java.awt.Dimension(610, 480));
         painelTrilha.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        add(painelTrilha, gridBagConstraints);
+        painelAmostragem.add(painelTrilha, java.awt.BorderLayout.CENTER);
+
+        selecaoConteudo1.setOpaque(false);
+        painelAmostragem.add(selecaoConteudo1, java.awt.BorderLayout.PAGE_START);
+
+        add(painelAmostragem, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botaoSelecionarConteudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSelecionarConteudoActionPerformed
+        this.painelTrilha.setVisible(false);
+        this.selecaoConteudo1.setVisible(true);
+        this.selecaoConteudo1.addFakeContents();
+        this.painelAmostragem.revalidate();
+        this.revalidate();
+    }//GEN-LAST:event_botaoSelecionarConteudoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -208,8 +233,10 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
     private com.alee.laf.button.WebButton botaoVerTrilhas;
     private javax.swing.JLabel labelNomeUsuario;
     private javax.swing.JLabel labelPicUsuario;
+    private javax.swing.JPanel painelAmostragem;
     private javax.swing.JPanel painelMenu;
     private javax.swing.JPanel painelTrilha;
     private javax.swing.JPanel painelUsuário;
+    private br.univali.portugol.plugin.maspath.telas.SelecaoConteudo selecaoConteudo1;
     // End of variables declaration//GEN-END:variables
 }
