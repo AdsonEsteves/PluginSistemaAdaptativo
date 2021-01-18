@@ -5,13 +5,21 @@
  */
 package br.univali.portugol.plugin.maspath.telas;
 
+import br.univali.portugol.plugin.maspath.conexao.InterfaceComunicacao;
 import br.univali.portugol.plugin.maspath.drawer.GraphDrawer;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.Themeable;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
 import com.alee.extended.image.DisplayType;
 import com.alee.extended.image.WebImage;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -19,24 +27,30 @@ import javax.swing.SwingUtilities;
  *
  * @author Space Today
  */
-public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable{
+public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable {
 
     /**
      * Creates new form painelMenuPrincipal
      */
-    
+
     GraphDrawer drawer = new GraphDrawer();
-    
+    PainelTrilha trilha = new PainelTrilha();
+
     public painelMenuPrincipal() {
         initComponents();
         configurarCores();
-        configuraPainel();
-        this.selecaoConteudo1.setVisible(false);
     }
-    
-    private void configuraPainel()
-    {
-        setImage(drawer.drawGraph());
+
+    public void configuraPainel() {
+        // setImage(drawer.drawGraph());
+
+        SwingUtilities.invokeLater(() -> {
+            painelAmostragem.removeAll();
+            trilha.carregarComponentes();
+            painelAmostragem.add(trilha);
+            revalidate();
+            repaint();
+        });
     }
 
     @Override
@@ -45,25 +59,31 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         painelUsuário.setBackground(ColorController.COR_DESTAQUE);
         labelPicUsuario.setForeground(ColorController.COR_LETRA);
         labelNomeUsuario.setForeground(ColorController.COR_LETRA);
-        if(WeblafUtils.weblafEstaInstalado())
-        {
-            WeblafUtils.configurarBotao(botaoAjuda, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
-            WeblafUtils.configurarBotao(botaoConfiguracoes, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
-            WeblafUtils.configurarBotao(botaoLogout, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
-            WeblafUtils.configurarBotao(botaoPerguntar, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
-            WeblafUtils.configurarBotao(botaoSelecionarConteudo, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
-            WeblafUtils.configurarBotao(botaoVerTrilhas, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
-            
+        if (WeblafUtils.weblafEstaInstalado()) {
+            WeblafUtils.configurarBotao(botaoAjuda, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA,
+                    ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoConfiguracoes, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA,
+                    ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoLogout, ColorController.COR_PRINCIPAL, ColorController.COR_LETRA,
+                    ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoPerguntar, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA,
+                    ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoSelecionarConteudo, ColorController.FUNDO_ESCURO,
+                    ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+            WeblafUtils.configurarBotao(botaoVerTrilhas, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA,
+                    ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 10, true);
+
         }
     }
-    
-    private void setImage(Image image){
-        SwingUtilities.invokeLater(() -> {            
-            painelTrilha.removeAll();
+
+    private void setImage(Image image) {
+        SwingUtilities.invokeLater(() -> {
+            painelAmostragem.removeAll();
             WebImage webImage = new WebImage(image);
             webImage.setDisplayType(DisplayType.fitComponent);
-            painelTrilha.add(webImage);
-            painelTrilha.revalidate();
+            painelAmostragem.add(webImage);
+            revalidate();
+            repaint();
         });
     }
 
@@ -73,10 +93,12 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        selecaoConteudo1 = new br.univali.portugol.plugin.maspath.telas.SelecaoConteudo();
         painelMenu = new javax.swing.JPanel();
         botaoVerTrilhas = new com.alee.laf.button.WebButton();
         botaoSelecionarConteudo = new com.alee.laf.button.WebButton();
@@ -88,8 +110,6 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         botaoLogout = new com.alee.laf.button.WebButton();
         botaoConfiguracoes = new com.alee.laf.button.WebButton();
         painelAmostragem = new javax.swing.JPanel();
-        painelTrilha = new javax.swing.JPanel();
-        selecaoConteudo1 = new br.univali.portugol.plugin.maspath.telas.SelecaoConteudo();
 
         setMinimumSize(new java.awt.Dimension(810, 480));
         setPreferredSize(new java.awt.Dimension(810, 480));
@@ -104,6 +124,11 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         botaoVerTrilhas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botaoVerTrilhas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         botaoVerTrilhas.setPreferredSize(new java.awt.Dimension(120, 50));
+        botaoVerTrilhas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoVerTrilhasActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -201,27 +226,38 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
         painelAmostragem.setOpaque(false);
         painelAmostragem.setPreferredSize(new java.awt.Dimension(610, 480));
         painelAmostragem.setLayout(new java.awt.BorderLayout());
-
-        painelTrilha.setMaximumSize(new java.awt.Dimension(610, 480));
-        painelTrilha.setMinimumSize(new java.awt.Dimension(610, 480));
-        painelTrilha.setOpaque(false);
-        painelTrilha.setPreferredSize(new java.awt.Dimension(610, 480));
-        painelTrilha.setLayout(new java.awt.GridBagLayout());
-        painelAmostragem.add(painelTrilha, java.awt.BorderLayout.CENTER);
-
-        selecaoConteudo1.setOpaque(false);
-        painelAmostragem.add(selecaoConteudo1, java.awt.BorderLayout.PAGE_START);
-
-        add(painelAmostragem, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        add(painelAmostragem, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botaoSelecionarConteudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSelecionarConteudoActionPerformed
-        this.painelTrilha.setVisible(false);
-        this.selecaoConteudo1.setVisible(true);
-        this.selecaoConteudo1.addFakeContents();
-        this.painelAmostragem.revalidate();
-        this.revalidate();
+    private void botaoSelecionarConteudoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_botaoSelecionarConteudoActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            
+            try {
+                this.painelAmostragem.removeAll();
+                this.painelAmostragem.add(selecaoConteudo1);
+                this.selecaoConteudo1.setVisible(true);
+                // this.selecaoConteudo1.addFakeContents();
+                String conteudos = InterfaceComunicacao.getInstance().requisitaConteudos();
+                ObjectMapper mapper = new ObjectMapper();
+                this.selecaoConteudo1.addContents(mapper.readTree(conteudos).get(0));
+            } catch (JsonMappingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (JsonProcessingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            this.revalidate();
+            this.repaint();
+        });
     }//GEN-LAST:event_botaoSelecionarConteudoActionPerformed
+
+    private void botaoVerTrilhasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVerTrilhasActionPerformed
+        configuraPainel();
+    }//GEN-LAST:event_botaoVerTrilhasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -235,7 +271,6 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
     private javax.swing.JLabel labelPicUsuario;
     private javax.swing.JPanel painelAmostragem;
     private javax.swing.JPanel painelMenu;
-    private javax.swing.JPanel painelTrilha;
     private javax.swing.JPanel painelUsuário;
     private br.univali.portugol.plugin.maspath.telas.SelecaoConteudo selecaoConteudo1;
     // End of variables declaration//GEN-END:variables

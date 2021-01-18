@@ -7,10 +7,9 @@ public class Content{
     private String name;
     private String descricao;
     private String topic;
-    private int difficulty;
     private String complexity;
     private boolean exercise;
-    private String taxonomy;
+    private int taxonomy;
     private List<String> tags;
     private String link;
     private int level;
@@ -23,11 +22,10 @@ public class Content{
     }
 
 
-    public Content(String name, String descricao, int level, String topic, int difficulty, String complexity, boolean exercise, String taxonomy, List<String> tags, String link, String imageLink) {
+    public Content(String name, String descricao, int level, String topic, String complexity, boolean exercise, int taxonomy, List<String> tags, String link, String imageLink) {
         this.name = name;
         this.descricao = descricao;
         this.topic = topic;
-        this.difficulty = difficulty;
         this.complexity = complexity;
         this.exercise = exercise;
         this.taxonomy = taxonomy;
@@ -61,14 +59,6 @@ public class Content{
         this.topic = topic;
     }
 
-    public int getDifficulty() {
-        return this.difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
     public String getComplexity() {
         return this.complexity;
     }
@@ -89,11 +79,11 @@ public class Content{
         this.exercise = exercise;
     }
 
-    public String getTaxonomy() {
+    public int getTaxonomy() {
         return this.taxonomy;
     }
 
-    public void setTaxonomy(String taxonomy) {
+    public void setTaxonomy(int taxonomy) {
         this.taxonomy = taxonomy;
     }
 
@@ -101,7 +91,7 @@ public class Content{
         return this.tags;
     }
 
-    public String getTagsAsString() {
+    public String buildTagsAsString() {
 
         StringBuilder builder = new StringBuilder();
 
@@ -142,21 +132,20 @@ public class Content{
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
     }
-    
+
     @Override
     public String toString() {
         return "{" +
-            " name:'" + getName() + "'" +
-            ", level:'" + getLevel() + "'" +
-            ", topic:'" + getTopic() + "'" +
-            ", difficulty:" + getDifficulty() + "" +
-            ", complexity:'" + getComplexity() + "'" +
-            ", exercise:" + isExercise() + "" +
-            ", taxonomy:'" + getTaxonomy() + "'" +
-            ", tags:[" + getTagsAsString() + "]" +
-            ", link:'" + getLink() + "'" +
+            " name='" + getName() + "'" +
+            ", descricao='" + getDescricao() + "'" +
+            ", topic='" + getTopic() + "'" +
+            ", complexity='" + getComplexity() + "'" +
+            ", exercise='" + isExercise() + "'" +
+            ", taxonomy='" + getTaxonomy() + "'" +
+            ", tags:[" + buildTagsAsString() + "]" +
+            ", link='" + getLink() + "'" +
+            ", level='" + getLevel() + "'" +
+            ", imageLink='" + getImageLink() + "'" +
             "}";
     }
-
-
 }

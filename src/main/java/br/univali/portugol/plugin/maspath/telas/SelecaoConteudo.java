@@ -74,7 +74,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         for (JsonNode jsonNode : json) {
             try 
             {
-                Content conteudo = mapper.treeToValue(json, Content.class);
+                Content conteudo = mapper.treeToValue(jsonNode, Content.class);
                 WebButton button = new WebButton(new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -86,20 +86,17 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                     button.setText(conteudo.getName().substring(0, 11)+"...");
                 }else{
                     button.setText(conteudo.getName());
-                }
-                
-                ImageIcon gif = new ImageIcon(new URL(conteudo.getImageLink()));
-                gif = new ImageIcon(gif.getImage().getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH));
-                
+                }                
                 button.setHorizontalAlignment(SwingConstants.CENTER);
                 button.setVerticalAlignment(SwingConstants.CENTER);
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 WeblafUtils.configurarBotao(button,ColorController.TRANSPARENTE, ColorController.COR_LETRA_TITULO, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 5);
                 FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
-                button.setIcon(gif);
                 painelItensBuscados.add(button);
                 conteudos.add(conteudo);
+                ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button);
+                img.execute();
                 
             } catch (JsonProcessingException ex) {
                 Logger.getLogger(SelecaoConteudo.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,7 +111,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         painelItensBuscados.removeAll();
         try {
             for (int i = 0; i < 30; i++) {
-                Content conteudo = new Content("nome", "descricao", i%5, "Tópico", i%3, "Complexidade", true, "Taxonomia", new ArrayList<String>(), "Link", "https://i.4cdn.org/vg/1610038753760.jpg");
+                Content conteudo = new Content("nome", "descricao", i%5, "Tópico", "Complexidade", true, i%5, new ArrayList<String>(), "Link", "https://i.4cdn.org/vg/1610038753760.jpg");
                 WebButton button = new WebButton(new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -323,7 +320,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         painelItensBuscados.setLayout(painelItensBuscadosLayout);
         painelItensBuscadosLayout.setHorizontalGroup(
             painelItensBuscadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 598, Short.MAX_VALUE)
+            .addGap(0, 601, Short.MAX_VALUE)
         );
         painelItensBuscadosLayout.setVerticalGroup(
             painelItensBuscadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -6,6 +6,8 @@
 package br.univali.portugol.plugin.maspath.telas;
 
 import br.univali.portugol.plugin.maspath.ControladorDeJanelas;
+import br.univali.portugol.plugin.maspath.conexao.InterfaceComunicacao;
+import br.univali.ps.nucleo.PortugolStudio;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.Themeable;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
@@ -23,6 +25,8 @@ public class painelLogin extends javax.swing.JPanel implements Themeable{
     public painelLogin() {
         initComponents();
         configurarCores();
+        this.CampoLogin.setText("euGJ14ZALG");
+        this.campoSenha.setText("8pm1VRR3g3");
     }
     
     @Override
@@ -35,6 +39,24 @@ public class painelLogin extends javax.swing.JPanel implements Themeable{
             WeblafUtils.configurarBotao(botaoLogin, ColorController.FUNDO_ESCURO, ColorController.COR_LETRA, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2, true);
             WeblafUtils.configuraWebLaf(CampoLogin);
             WeblafUtils.configuraWebLaf(campoSenha);
+        }
+    }
+
+    public void fazerLogin()
+    {
+        String nome = this.CampoLogin.getText();
+        String senha = new String(this.campoSenha.getPassword());
+        String dados = "{"+
+            "\"usuario\":\""+nome+"\","+
+            "\"senha\": \""+senha+"\""+
+            "}";
+        try 
+        {
+            InterfaceComunicacao.getInstance().fazerLogin(dados);            
+        }
+        catch (Exception e)
+        {
+            PortugolStudio.getInstancia().getTratadorExcecoes().exibirExcecao(e);
         }
     }
 
@@ -142,6 +164,7 @@ public class painelLogin extends javax.swing.JPanel implements Themeable{
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLoginActionPerformed
+        fazerLogin();
         ControladorDeJanelas.getInstance().closejanelaPrincipal();
         ControladorDeJanelas.getInstance().showJanelaMenuPrincipal();
     }//GEN-LAST:event_botaoLoginActionPerformed

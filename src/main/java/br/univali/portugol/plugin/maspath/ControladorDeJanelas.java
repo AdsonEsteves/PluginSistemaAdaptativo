@@ -54,6 +54,7 @@ public class ControladorDeJanelas {
     public void showJanelaMenuPrincipal()
     {
         janelaMenuPrincipal.setLocationRelativeTo(null);
+        painelMenuPrincipa1.configuraPainel();
         janelaMenuPrincipal.setVisible(true);
     }
     
