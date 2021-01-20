@@ -5,6 +5,7 @@
  */
 package br.univali.portugol.plugin.maspath;
 
+import br.univali.portugol.plugin.maspath.dataentities.Student;
 import br.univali.portugol.plugin.maspath.telas.SelecaoConteudo;
 import br.univali.portugol.plugin.maspath.telas.painelLogin;
 import br.univali.portugol.plugin.maspath.telas.painelMenuPrincipal;
@@ -51,10 +52,10 @@ public class ControladorDeJanelas {
         janelaLogin.setVisible(false);        
     }
     
-    public void showJanelaMenuPrincipal()
+    public void showJanelaMenuPrincipal(Student estudante)
     {
         janelaMenuPrincipal.setLocationRelativeTo(null);
-        painelMenuPrincipa1.configuraPainel();
+        painelMenuPrincipa1.configuraPainel(estudante);
         janelaMenuPrincipal.setVisible(true);
     }
     

@@ -5,17 +5,6 @@
  */
 package br.univali.portugol.plugin.maspath.telas;
 
-import br.univali.portugol.plugin.maspath.dataentities.Content;
-import br.univali.ps.ui.swing.ColorController;
-import br.univali.ps.ui.swing.Themeable;
-import br.univali.ps.ui.swing.weblaf.WeblafUtils;
-import br.univali.ps.ui.utils.FabricaDicasInterface;
-import com.alee.extended.layout.WrapFlowLayout;
-import com.alee.laf.button.WebButton;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,10 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
+
+import com.alee.extended.layout.WrapFlowLayout;
+import com.alee.laf.button.WebButton;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.univali.portugol.plugin.maspath.dataentities.Content;
+import br.univali.portugol.plugin.maspath.utils.ImageWorker;
+import br.univali.ps.ui.swing.ColorController;
+import br.univali.ps.ui.swing.Themeable;
+import br.univali.ps.ui.swing.weblaf.WeblafUtils;
+import br.univali.ps.ui.utils.FabricaDicasInterface;
 
 /**
  *
@@ -95,7 +96,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                 FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
                 painelItensBuscados.add(button);
                 conteudos.add(conteudo);
-                ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button);
+                ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button, 103, 103);
                 img.execute();
                 
             } catch (JsonProcessingException ex) {
@@ -132,39 +133,13 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                 FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
                 painelItensBuscados.add(button);
                 conteudos.add(conteudo);
-                ImageWorker img = new ImageWorker(new URL("https://i.4cdn.org/vg/1610038753760.jpg"), button);
+                ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button, 103, 103);
                 img.execute();
             }
         } catch (Exception ex) {
             Logger.getLogger(SelecaoConteudo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public class ImageWorker extends SwingWorker<ImageIcon, Void>{
-
-        URL imageURL;
-        ImageIcon brandImage;
-        WebButton device;
-
-        public ImageWorker(URL imageURL, WebButton device){
-            this.imageURL = imageURL;
-            this.device = device;
-        }
-
-        @Override
-        protected ImageIcon doInBackground() throws Exception {
-            brandImage = new ImageIcon(imageURL);
-            Image rawBrandImage = brandImage.getImage();
-            Image newimg = rawBrandImage.getScaledInstance(103, 103,  java.awt.Image.SCALE_SMOOTH);
-            brandImage = new ImageIcon(newimg);
-            return brandImage;
-        }
-
-        @Override
-        protected void done() {
-            device.setIcon(brandImage);
-          }
-        }
 
     /**
      * This method is called from within the constructor to initialize the form.

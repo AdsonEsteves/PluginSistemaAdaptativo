@@ -1,10 +1,14 @@
 package br.univali.portugol.plugin.maspath.dataentities;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Student {
+
+public class Student{
     
+    //Dados pessoais
     private String name;
     private String password;
     private String avatar;
@@ -12,16 +16,21 @@ public class Student {
     private int idade;
     private String nivelEducacional;
     private List<String> preferencias;
+    
+    //dados de Uso
     private List<String> trilha;
     private List<String> exerciciosResolvidos;
     private int tempoResolucao;
     private List<String> errosDoEstudante;
+    private Map<String, Long> tempoTag;
+
+    public int pontos = 0;
 
     public Student() {
         super();
     }
 
-    public Student(String name, String password, String avatar, String genero, int idade, String nivelEducacional, List<String> preferencias) {
+    public Student(String name, String password, String avatar, String genero, int idade, String nivelEducacional, List<String> preferencias, List<String> trilha) {
         this.name = name;
         this.password = password;
         this.avatar = avatar;
@@ -29,10 +38,11 @@ public class Student {
         this.idade = idade;
         this.nivelEducacional = nivelEducacional;
         this.preferencias = preferencias;
-        this.trilha = new ArrayList<>();
+        this.trilha = trilha;
         this.exerciciosResolvidos = new ArrayList<>();
         this.tempoResolucao = 0;
         this.errosDoEstudante = new ArrayList<>();
+        this.tempoTag = new LinkedHashMap<>();
     }
 
     public String getName() {
@@ -87,7 +97,7 @@ public class Student {
         return this.preferencias;
     }
 
-    public String getPreferenciasAsString() {
+    public String buildPreferenciasAsString() {
 
         StringBuilder builder = new StringBuilder();
 
@@ -146,7 +156,7 @@ public class Student {
             ", genero:'" + genero + "'" +
             ", idade:" + idade + "" +
             ", nivelEducacional:'" + nivelEducacional + "'" +
-            ", preferencias:[" + getPreferenciasAsString() + "]" +
+            ", preferencias:[" + buildPreferenciasAsString() + "]" +
             ", trilha:" + trilha + "" +
             ", exerciciosResolvidos:" + exerciciosResolvidos + "" +
             ", tempoResolucao:" + tempoResolucao + "" +

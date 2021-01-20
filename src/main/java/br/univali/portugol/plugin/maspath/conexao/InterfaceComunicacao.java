@@ -32,11 +32,13 @@ public class InterfaceComunicacao {
         return response.toString();
     }
     
-    public String fazerLogin(String dados) throws Exception
+    public Student fazerLogin(String dados) throws Exception
     {
         String response = ConexaoHTTP.fazerRequest("/interface/login", "GET", new ObjectMapper().readTree(dados));
-        this.porta = response.toString();
-        return response.toString();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode login = mapper.readTree(response);
+        this.porta = login.get("porta").asText();
+        return mapper.treeToValue(login.get("estudante"), Student.class);
     }
     
     public String deslogar()
@@ -58,16 +60,16 @@ public class InterfaceComunicacao {
     }
 
     public static void main(String[] args) throws InterruptedException, JsonProcessingException, Exception {
-        Student student = new Student("Rafaelf", "edwdwd", "trgrtgrt", "homem", 24, "ensino médio", new ArrayList<String>(){{
-            add("Mangá");
-            add("Memes");
-            add("Programação");
-        }});
-        Content content = new Content("nome", "descricao", 5, "Tópico", "Complexidade", true, 5, new ArrayList<String>(){{
-            add("Tabuleiro");
-            add("Jogos");
-            add("Entrada e Saida");
-        }}, "link", "link2");
+        // Student student = new Student("Rafaelf", "edwdwd", "trgrtgrt", "homem", 24, "ensino médio", new ArrayList<String>(){{
+        //     add("Mangá");
+        //     add("Memes");
+        //     add("Programação");
+        // }});
+        // Content content = new Content("nome", "descricao", 5, "Tópico", "Complexidade", true, 5, new ArrayList<String>(){{
+        //     add("Tabuleiro");
+        //     add("Jogos");
+        //     add("Entrada e Saida");
+        // }}, "link", "link2");
         // String dados = "{"+
         //     "'nome':'Andre',"+
         //     "'cliques':["+
@@ -92,11 +94,11 @@ public class InterfaceComunicacao {
         //     content.toString()+
         //     "}";
         String dados = "{"+
-            "\"usuario\":\"euGJ14ZALG\","+
-            "\"senha\": \"8pm1VRR3g3\""+
+            "\"usuario\":\"5heJTV1BJo\","+
+            "\"senha\": \"AoKMP8ulNg\""+
             "}";
         InterfaceComunicacao intercom = InterfaceComunicacao.getInstance();
-        intercom.porta = intercom.fazerLogin(dados);
+        Student estudante = intercom.fazerLogin(dados);
         System.out.println("PORTA: "+intercom.porta);
         ObjectMapper mapper = new ObjectMapper();
         String trilhaJson = intercom.requisitaConteudos();

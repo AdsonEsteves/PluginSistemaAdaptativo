@@ -5,8 +5,11 @@
  */
 package br.univali.portugol.plugin.maspath.telas;
 
+import br.univali.portugol.plugin.maspath.ControladorDeJanelas;
 import br.univali.portugol.plugin.maspath.conexao.InterfaceComunicacao;
+import br.univali.portugol.plugin.maspath.dataentities.Student;
 import br.univali.portugol.plugin.maspath.drawer.GraphDrawer;
+import br.univali.portugol.plugin.maspath.utils.ImageWorker;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.Themeable;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
@@ -19,6 +22,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -35,21 +44,46 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
 
     GraphDrawer drawer = new GraphDrawer();
     PainelTrilha trilha = new PainelTrilha();
+    Student estudante;
 
     public painelMenuPrincipal() {
         initComponents();
         configurarCores();
+        configurarAcoes();
     }
 
-    public void configuraPainel() {
+    public void configuraPainel(Student estudante) {
         // setImage(drawer.drawGraph());
-
+        this.estudante = estudante;
         SwingUtilities.invokeLater(() -> {
             painelAmostragem.removeAll();
+            try 
+            {
+                ImageWorker img = new ImageWorker(new URL(estudante.getAvatar()), labelPicUsuario, 100, 100);
+                img.execute();
+            } catch (MalformedURLException e) {
+                System.out.println("Não achou imagem de usuario");
+            }
+            labelNomeUsuario.setText(estudante.getName());
             trilha.carregarComponentes();
             painelAmostragem.add(trilha);
             revalidate();
             repaint();
+        });
+    }
+    private void configurarAcoes(){
+        this.botaoLogout.setAction(new AbstractAction("",new javax.swing.ImageIcon(getClass().getResource("/logout.png"))){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String resposta = InterfaceComunicacao.getInstance().deslogar();
+                if(resposta.equals("SUCESSO")){
+                    ControladorDeJanelas.getInstance().closeJanelaMenuPrincipal();
+                    ControladorDeJanelas.getInstance().showjanelaPrincipal();
+                }
+                else{
+                    System.out.println(resposta);
+                }
+            }
         });
     }
 
@@ -256,7 +290,7 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
     }//GEN-LAST:event_botaoSelecionarConteudoActionPerformed
 
     private void botaoVerTrilhasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVerTrilhasActionPerformed
-        configuraPainel();
+        configuraPainel(this.estudante);
     }//GEN-LAST:event_botaoVerTrilhasActionPerformed
 
 

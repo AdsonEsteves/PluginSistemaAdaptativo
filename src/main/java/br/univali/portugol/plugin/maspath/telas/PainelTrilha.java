@@ -7,13 +7,12 @@ import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import com.alee.extended.layout.WrapFlowLayout;
 
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.DimensionUIResource;
 
 import com.alee.laf.button.WebButton;
@@ -22,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.univali.portugol.plugin.maspath.conexao.InterfaceComunicacao;
 import br.univali.portugol.plugin.maspath.dataentities.Content;
+import br.univali.portugol.plugin.maspath.utils.ImageWorker;
 import br.univali.ps.nucleo.PortugolStudio;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
@@ -40,10 +40,9 @@ public class PainelTrilha extends JPanel{
     public void carregarComponentes(){
         carregarTrilha();        
         removeAll();
-        setLayout(new GridLayout(4, conteudosTrilha.size()/4));
+        setLayout(new GridLayout(4, conteudosTrilha.size(), 50, 50));
         setSize(610, 480);
         setOpaque(false);
-
         carregarBotoes();
     }
 
@@ -68,34 +67,34 @@ public class PainelTrilha extends JPanel{
     {
         for (Content conteudo : conteudosTrilha) {
             
-            WebButton button = new WebButton(new AbstractAction(conteudo.getName()){
+            WebButton button = new WebButton(new AbstractAction(conteudosTrilha.indexOf(conteudo)+""){
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-                    String command = ((WebButton) e.getSource()).getActionCommand();
-                    System.err.println("Abriu "+command);
+                    String index = ((WebButton) e.getSource()).getActionCommand();
+                    System.err.println("Abriu "+conteudosTrilha.get(Integer.parseInt(index)).getName());
                 }                
             });
             
             if(conteudo.getName().length()>4){
-                button.setText(conteudo.getName().substring(0, 3)+"...");
+                button.setText(conteudo.getName().substring(0, 6)+"...");
             }else{
                 button.setText(conteudo.getName());
             }
             try {
-                ImageIcon gif = new ImageIcon(new URL(conteudo.getImageLink()));
-                gif = new ImageIcon(gif.getImage().getScaledInstance(35, 35,  java.awt.Image.SCALE_SMOOTH));
-                button.setIcon(gif);                
+                ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button, 35, 35);
+                img.execute();               
             } catch (Exception e) {
                 System.out.println(e);
             }
-            
             button.setHorizontalAlignment(SwingConstants.CENTER);
             button.setVerticalAlignment(SwingConstants.CENTER);
             button.setHorizontalTextPosition(SwingConstants.CENTER);
             button.setVerticalTextPosition(SwingConstants.BOTTOM);
             button.setPreferredSize(35, 35);
             button.setMaximumSize(new DimensionUIResource(35, 35));
+            
+            if(WeblafUtils.weblafEstaInstalado())
             WeblafUtils.configurarBotao(button,ColorController.TRANSPARENTE, ColorController.COR_LETRA_TITULO, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 5);
             FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
             botoesConteudo.add(button);
