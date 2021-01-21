@@ -59,6 +59,12 @@ public class InterfaceComunicacao {
         return response.toString();
     }
 
+    public String requisitaInfo()
+    {
+        String response = ConexaoHTTP.fazerRequest("/tutor/getInfo", "GET", null);
+        return response.toString();
+    }
+
     public static void main(String[] args) throws InterruptedException, JsonProcessingException, Exception {
         // Student student = new Student("Rafaelf", "edwdwd", "trgrtgrt", "homem", 24, "ensino médio", new ArrayList<String>(){{
         //     add("Mangá");

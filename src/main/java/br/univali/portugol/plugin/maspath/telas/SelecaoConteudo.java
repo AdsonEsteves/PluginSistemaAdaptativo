@@ -22,8 +22,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.univali.portugol.plugin.maspath.conexao.InterfaceComunicacao;
 import br.univali.portugol.plugin.maspath.dataentities.Content;
 import br.univali.portugol.plugin.maspath.utils.ImageWorker;
+import br.univali.ps.nucleo.PortugolStudio;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.Themeable;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
@@ -36,6 +38,7 @@ import br.univali.ps.ui.utils.FabricaDicasInterface;
 public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
     
     List<Content> conteudos = new ArrayList<>();
+    ObjectMapper mapper = new ObjectMapper();
     
     /**
      * Creates new form SelecaoConteudo
@@ -43,7 +46,46 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
     public SelecaoConteudo() {
         initComponents();
         configurarCores();
+        configurarSeletores();
         painelItensBuscados.setLayout(new WrapFlowLayout(false, 2, 2));
+    }
+
+    private void configurarSeletores(){
+
+        this.comboBoxTaxonomia.removeAllItems();
+        this.comboBoxNivel.removeAllItems();
+        this.comboBoxTopico.removeAllItems();
+        this.comboBoxTags.removeAllItems();
+        
+        String info = InterfaceComunicacao.getInstance().requisitaInfo();
+        this.comboBoxTaxonomia.addItem("Qualquer");
+        this.comboBoxTaxonomia.addItem("Lembrar");
+        this.comboBoxTaxonomia.addItem("Compreeder");
+        this.comboBoxTaxonomia.addItem("Aplicar");
+        this.comboBoxTaxonomia.addItem("Analisar");
+        this.comboBoxTaxonomia.addItem("Avaliar");
+        this.comboBoxTaxonomia.addItem("Criar");
+        this.comboBoxNivel.addItem("Qualquer");
+        this.comboBoxTopico.addItem("Qualquer");
+        try {
+            JsonNode jinfo = mapper.readTree(info);
+
+            for (int i = 1; i <= jinfo.get("MAXlevel").asInt(); i++) {
+                this.comboBoxNivel.addItem(i+"");
+            }
+
+            for (JsonNode jsonNode : jinfo.get("tags")) {
+                this.comboBoxTags.addItem(jsonNode.asText());
+            }
+
+            for (JsonNode jsonNode : jinfo.get("topics")) {
+                this.comboBoxTopico.addItem(jsonNode.asText());
+            }
+
+        } catch (JsonProcessingException e) {
+            PortugolStudio.getInstancia().getTratadorExcecoes().exibirExcecao(e);
+        }
+        
     }
 
     @Override
@@ -56,6 +98,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         this.labelTopico.setForeground(ColorController.COR_LETRA);
         
         this.campoDeBusca.setBackground(ColorController.FUNDO_CLARO);
+        this.campoDeBusca.setForeground(ColorController.COR_LETRA);
         this.jScrollPane1.getViewport().setBackground(ColorController.FUNDO_CLARO);
         
         
@@ -65,13 +108,14 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                                         ColorController.COR_LETRA, ColorController.COR_DESTAQUE, 1, true);
             WeblafUtils.configuraWebLaf(checkBoxExercicio);
             WeblafUtils.configuraWebLaf(jScrollPane1);
+            //WeblafUtils.configuraWebLaf(comboBoxTaxonomia);
         }
     }
     
     public void addContents(JsonNode json)
     {   
         painelItensBuscados.removeAll();
-        ObjectMapper mapper = new ObjectMapper();
+        
         for (JsonNode jsonNode : json) {
             try 
             {
