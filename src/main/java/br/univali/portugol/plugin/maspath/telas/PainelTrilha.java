@@ -1,5 +1,6 @@
 package br.univali.portugol.plugin.maspath.telas;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -40,7 +41,7 @@ public class PainelTrilha extends JPanel{
     public void carregarComponentes(){
         carregarTrilha();        
         removeAll();
-        setLayout(new GridLayout(4, conteudosTrilha.size(), 50, 50));
+        setLayout(null);
         setSize(610, 480);
         setOpaque(false);
         carregarBotoes();
@@ -65,9 +66,12 @@ public class PainelTrilha extends JPanel{
 
     private void carregarBotoes()
     {
-        for (Content conteudo : conteudosTrilha) {
+        int startx = 10;
+        int starty = 10;
+        for (int i = 0; i < conteudosTrilha.size(); i++) {
+        //for (Content conteudo : conteudosTrilha) {
             
-            WebButton button = new WebButton(new AbstractAction(conteudosTrilha.indexOf(conteudo)+""){
+            WebButton button = new WebButton(new AbstractAction(conteudosTrilha.indexOf(conteudosTrilha.get(i))+""){
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
@@ -76,13 +80,13 @@ public class PainelTrilha extends JPanel{
                 }                
             });
             
-            if(conteudo.getName().length()>4){
-                button.setText(conteudo.getName().substring(0, 6)+"...");
+            if(conteudosTrilha.get(i).getName().length()>4){
+                button.setText(conteudosTrilha.get(i).getName().substring(0, 6)+"...");
             }else{
-                button.setText(conteudo.getName());
+                button.setText(conteudosTrilha.get(i).getName());
             }
             try {
-                ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button, 35, 35);
+                ImageWorker img = new ImageWorker(new URL(conteudosTrilha.get(i).getImageLink()), button, 35, 35);
                 img.execute();               
             } catch (Exception e) {
                 System.out.println(e);
@@ -91,14 +95,21 @@ public class PainelTrilha extends JPanel{
             button.setVerticalAlignment(SwingConstants.CENTER);
             button.setHorizontalTextPosition(SwingConstants.CENTER);
             button.setVerticalTextPosition(SwingConstants.BOTTOM);
-            button.setPreferredSize(35, 35);
-            button.setMaximumSize(new DimensionUIResource(35, 35));
+            
             
             if(WeblafUtils.weblafEstaInstalado())
             WeblafUtils.configurarBotao(button,ColorController.TRANSPARENTE, ColorController.COR_LETRA_TITULO, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 5);
-            FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
+            FabricaDicasInterface.criarTooltip(button, conteudosTrilha.get(i).getTopic());
             botoesConteudo.add(button);
             this.add(button);
+            
+            int x = startx + ((i*150)%600);
+            int y = starty + 100* (((i*150)/600));
+            // button.setLocation(x, y);
+            // button.setPreferredSize(100, 100);
+            // button.setMaximumSize(new DimensionUIResource(100, 100));
+            // button.setMinimumSize(new DimensionUIResource(100, 100));
+            button.setBounds(x, y, 80, 80);
         }
     }
 

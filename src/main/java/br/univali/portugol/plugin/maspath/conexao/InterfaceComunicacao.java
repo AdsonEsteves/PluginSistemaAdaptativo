@@ -65,6 +65,12 @@ public class InterfaceComunicacao {
         return response.toString();
     }
 
+    public String requisitaBuscaConteudos(JsonNode dadosDeConteudos)
+    {
+        String response = ConexaoHTTP.fazerRequest("/tutor/buscarConteudo", "POST", dadosDeConteudos);
+        return response.toString();
+    }
+
     public static void main(String[] args) throws InterruptedException, JsonProcessingException, Exception {
         // Student student = new Student("Rafaelf", "edwdwd", "trgrtgrt", "homem", 24, "ensino médio", new ArrayList<String>(){{
         //     add("Mangá");
