@@ -15,7 +15,7 @@ public class TesteTela {
      * @param args the command line arguments
      */
     public static void main(String[] args) {        
-        ControladorDeJanelas.getInstance().showjanelaPrincipal();
+        ControladorDeJanelas.getInstance().showJanelaAtual();
         //ControladorDeJanelas cdj = new ControladorDeJanelas();
        // cdj.showjanelaPrincipal();
     }

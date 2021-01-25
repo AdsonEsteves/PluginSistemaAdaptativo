@@ -54,9 +54,9 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
      */
     public SelecaoConteudo() {
         initComponents();
-        configurarCores();
         configurarSeletores();
         configurarAcaoBuscar();
+        configurarCores();
         painelItensBuscados.setLayout(new WrapFlowLayout(false, 2, 2));
     }
 
@@ -183,7 +183,8 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         this.jScrollPane1.getViewport().setBackground(ColorController.FUNDO_CLARO);
 
         this.campoDeBusca.setCaretColor(ColorController.COR_LETRA);
-        
+        this.painelTags.setBackground(ColorController.COR_PRINCIPAL);
+        this.painelScrollTags.setOpaque(false);
         
         if(WeblafUtils.weblafEstaInstalado())
         {
@@ -196,6 +197,8 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
             WeblafUtils.configuraWebLaf(comboBoxTopico);
             WeblafUtils.configuraWebLaf(comboBoxTipo);
         }
+        revalidate();
+        repaint();
     }
     
     public void addContents(JsonNode json)
