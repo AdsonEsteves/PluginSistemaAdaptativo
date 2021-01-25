@@ -157,7 +157,7 @@ public class painelLogin extends javax.swing.JPanel implements Themeable {
     private void botaoLoginActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_botaoLoginActionPerformed
         try {
             Student estudante  = fazerLogin();
-            ControladorDeJanelas.getInstance().closejanelaPrincipal();
+            //ControladorDeJanelas.getInstance().closejanelaPrincipal();
             ControladorDeJanelas.getInstance().showJanelaMenuPrincipal(estudante);
         } catch (Exception e) {            
             PortugolStudio.getInstancia().getTratadorExcecoes().exibirExcecao(e);

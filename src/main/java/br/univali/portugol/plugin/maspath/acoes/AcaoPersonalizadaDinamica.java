@@ -40,6 +40,6 @@ public final class AcaoPersonalizadaDinamica extends AbstractAction
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        ControladorDeJanelas.getInstance().showjanelaPrincipal();
+        ControladorDeJanelas.getInstance().showJanelaAtual();
     }
 }

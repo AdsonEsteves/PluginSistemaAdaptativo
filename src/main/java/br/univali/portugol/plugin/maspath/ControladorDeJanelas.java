@@ -18,6 +18,7 @@ import br.univali.ps.ui.telas.TelaCustomBorder;
 public class ControladorDeJanelas {
     TelaCustomBorder janelaLogin;
     TelaCustomBorder janelaMenuPrincipal;
+    TelaCustomBorder janelaAtual;
     SelecaoConteudo painelConteudos;
     painelLogin painelLogin;
     painelMenuPrincipal painelMenuPrincipa1;
@@ -29,6 +30,8 @@ public class ControladorDeJanelas {
         painelMenuPrincipa1 = new painelMenuPrincipal();
         janelaLogin = new TelaCustomBorder(painelLogin, "Faça seu Login");
         janelaMenuPrincipal = new TelaCustomBorder(painelMenuPrincipa1, "Menu Principal");
+        janelaAtual = janelaLogin;
+        janelaAtual.setLocationRelativeTo(null);
     }
     
     public static ControladorDeJanelas getInstance()
@@ -40,28 +43,42 @@ public class ControladorDeJanelas {
         
         return controladorDeJanelas;
     }
+
+    public void showJanelaAtual()
+    {
+        janelaAtual.setVisible(true);
+    }
+
+    public void hideJanelaAtual()
+    {
+        janelaAtual.setVisible(false);
+    }
     
     public void showjanelaPrincipal()
     {
+        janelaAtual.setVisible(false);
         janelaLogin.setLocationRelativeTo(null);
-        janelaLogin.setVisible(true);
+        janelaAtual = janelaLogin;
+        janelaAtual.setVisible(true);
     }
     
-    public void closejanelaPrincipal()
-    {
-        janelaLogin.setVisible(false);        
-    }
+    // public void closejanelaPrincipal()
+    // {
+    //     janelaLogin.setVisible(false);        
+    // }
     
     public void showJanelaMenuPrincipal(Student estudante)
     {
+        janelaAtual.setVisible(false);
         janelaMenuPrincipal.setLocationRelativeTo(null);
         painelMenuPrincipa1.configuraPainel(estudante);
-        janelaMenuPrincipal.setVisible(true);
+        janelaAtual =  janelaMenuPrincipal;
+        janelaAtual.setVisible(true);
     }
     
-    public void closeJanelaMenuPrincipal()
-    {
-        janelaMenuPrincipal.setVisible(false);
-    }
+    // public void closeJanelaMenuPrincipal()
+    // {
+    //     janelaMenuPrincipal.setVisible(false);
+    // }
     
 }

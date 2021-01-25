@@ -44,8 +44,16 @@ public class ImageWorker extends SwingWorker<ImageIcon, Void> {
     @Override
     protected void done() {
         if(device!=null)
-        device.setIcon(brandImage);        
-        if(label!=null)
-        label.setIcon(brandImage);
+        {
+            device.setIcon(brandImage);
+            device.revalidate();
+            device.repaint();
+        }
+        if(label!=null){
+            label.setIcon(brandImage);
+            label.revalidate();
+            label.repaint();
+        }
+
       }
     }

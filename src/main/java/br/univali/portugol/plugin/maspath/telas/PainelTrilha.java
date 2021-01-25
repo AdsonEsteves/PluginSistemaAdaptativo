@@ -1,4 +1,5 @@
 package br.univali.portugol.plugin.maspath.telas;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -11,6 +12,7 @@ import java.util.List;
 import com.alee.extended.layout.WrapFlowLayout;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -20,10 +22,12 @@ import com.alee.laf.button.WebButton;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.univali.portugol.plugin.maspath.ControladorDeJanelas;
 import br.univali.portugol.plugin.maspath.conexao.InterfaceComunicacao;
 import br.univali.portugol.plugin.maspath.dataentities.Content;
 import br.univali.portugol.plugin.maspath.utils.ImageWorker;
 import br.univali.ps.nucleo.PortugolStudio;
+import br.univali.ps.ui.abas.AbaCodigoFonte;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
 import br.univali.ps.ui.utils.FabricaDicasInterface;
@@ -70,26 +74,31 @@ public class PainelTrilha extends JPanel{
         int starty = 10;
         for (int i = 0; i < conteudosTrilha.size(); i++) {
         //for (Content conteudo : conteudosTrilha) {
-            
-            WebButton button = new WebButton(new AbstractAction(conteudosTrilha.indexOf(conteudosTrilha.get(i))+""){
+            Content conteudo = conteudosTrilha.get(i);
+            WebButton button = new WebButton(new AbstractAction(){
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-                    String index = ((WebButton) e.getSource()).getActionCommand();
-                    System.err.println("Abriu "+conteudosTrilha.get(Integer.parseInt(index)).getName());
+                    try {
+                        abrirConteudo(conteudo);
+                        ControladorDeJanelas.getInstance().hideJanelaAtual();                        
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
                 }                
             });
             
-            if(conteudosTrilha.get(i).getName().length()>4){
-                button.setText(conteudosTrilha.get(i).getName().substring(0, 6)+"...");
+            if(conteudo.getName().length()>4){
+                button.setText(conteudo.getName().substring(0, 6)+"...");
             }else{
-                button.setText(conteudosTrilha.get(i).getName());
+                button.setText(conteudo.getName());
             }
+            //button.setName(i+"");
             try {
-                ImageWorker img = new ImageWorker(new URL(conteudosTrilha.get(i).getImageLink()), button, 35, 35);
+                ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button, 35, 35);
                 img.execute();               
             } catch (Exception e) {
-                System.out.println(e);
+                PortugolStudio.getInstancia().getTratadorExcecoes().exibirExcecao(e);
             }
             button.setHorizontalAlignment(SwingConstants.CENTER);
             button.setVerticalAlignment(SwingConstants.CENTER);
@@ -111,6 +120,13 @@ public class PainelTrilha extends JPanel{
             // button.setMinimumSize(new DimensionUIResource(100, 100));
             button.setBounds(x, y, 80, 80);
         }
+    }
+
+    private void abrirConteudo(Content conteudo){
+        AbaCodigoFonte aba = (AbaCodigoFonte) PortugolStudio.getInstancia().getTelaPrincipal().getPainelTabulado().getAbaSelecionada();
+        aba.getEditor().setCodigo("Codigo Exercicio"+conteudo.getName());
+        aba.getEditor().getTextArea().setText("Codigo Exercicio"+conteudo.getName());
+        System.out.println("Abriu "+conteudo.getName());
     }
 
     @Override

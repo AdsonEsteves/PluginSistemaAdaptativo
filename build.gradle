@@ -46,7 +46,7 @@ task customFatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'br.univali.portugol.plugin.maspath'
     }
-    baseName = 'all-in-one-jar'
+    baseName = 'SACIP'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }

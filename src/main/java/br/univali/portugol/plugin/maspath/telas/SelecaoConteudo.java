@@ -26,10 +26,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import br.univali.portugol.plugin.maspath.ControladorDeJanelas;
 import br.univali.portugol.plugin.maspath.conexao.InterfaceComunicacao;
 import br.univali.portugol.plugin.maspath.dataentities.Content;
 import br.univali.portugol.plugin.maspath.utils.ImageWorker;
 import br.univali.ps.nucleo.PortugolStudio;
+import br.univali.ps.ui.abas.AbaCodigoFonte;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.Themeable;
 import br.univali.ps.ui.swing.weblaf.PSScrollBarUI;
@@ -85,7 +87,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                 String busca = InterfaceComunicacao.getInstance().requisitaBuscaConteudos(infoBusca);
                 try {
                     addContents(mapper.readTree(busca));
-                } catch (JsonProcessingException e1) {
+                } catch (Exception e1) {
                     //TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
@@ -160,7 +162,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                 this.comboBoxTopico.addItem(jsonNode.asText());
             }
 
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             PortugolStudio.getInstancia().getTratadorExcecoes().exibirExcecao(e);
         }
         revalidate();
@@ -208,6 +210,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         abrirConteudo(conteudo);
+                        ControladorDeJanelas.getInstance().hideJanelaAtual();
                     }
                 });
                 
@@ -238,7 +241,10 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
     }
 
     private void abrirConteudo(Content conteudo){
-
+        AbaCodigoFonte aba = (AbaCodigoFonte) PortugolStudio.getInstancia().getTelaPrincipal().getPainelTabulado().getAbaSelecionada();
+        aba.getEditor().setCodigo("Codigo Exercicio"+conteudo.getName());
+        aba.getEditor().getTextArea().setText("Codigo Exercicio"+conteudo.getName());
+        System.out.println("Abriu "+conteudo.getName());
     }
     
     public void addFakeContents()

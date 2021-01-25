@@ -28,7 +28,7 @@ public final class AcaoPersonalizadaEstatica extends AbstractAction
         try
         {
             //Carregue aqui o caminho do icone do botao do plugin que vai estar disponível
-            String caminho = "imagens/caution_biohazard.png";
+            String caminho = "icone_32x32.png";
             Image imagem = ImageIO.read(AcaoPersonalizadaEstatica.class.getClassLoader().getResourceAsStream(caminho));
 
             return new ImageIcon(imagem);
@@ -44,7 +44,6 @@ public final class AcaoPersonalizadaEstatica extends AbstractAction
     {
         //Aqui estará o que seu botão fará, a ação dele
         //ControladorDeJanelas.getInstance().showjanelaPrincipal();
-        cdj = new ControladorDeJanelas();
-        cdj.showjanelaPrincipal();
+        ControladorDeJanelas.getInstance().showJanelaAtual();
     }
 }

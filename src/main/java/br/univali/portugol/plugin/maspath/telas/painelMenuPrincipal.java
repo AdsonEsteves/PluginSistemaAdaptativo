@@ -77,7 +77,7 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
             public void actionPerformed(ActionEvent e) {
                 String resposta = InterfaceComunicacao.getInstance().deslogar();
                 if(resposta.equals("SUCESSO")){
-                    ControladorDeJanelas.getInstance().closeJanelaMenuPrincipal();
+                    //ControladorDeJanelas.getInstance().closeJanelaMenuPrincipal();
                     ControladorDeJanelas.getInstance().showjanelaPrincipal();
                 }
                 else{
@@ -277,10 +277,7 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
                 String conteudos = InterfaceComunicacao.getInstance().requisitaConteudos();
                 ObjectMapper mapper = new ObjectMapper();
                 this.selecaoConteudo1.addContents(mapper.readTree(conteudos).get(0));
-            } catch (JsonMappingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (JsonProcessingException e) {
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
