@@ -13,7 +13,7 @@ public final class VisaoPluginExemplo extends VisaoPlugin
     //private final JPanel painelInicial;
     //private final JPanel painelImagem;
 
-    public VisaoPluginExemplo(PluginExemplo plugin)
+    public VisaoPluginExemplo(PluginSACIP plugin)
     {
         super(plugin);
         initComponents();

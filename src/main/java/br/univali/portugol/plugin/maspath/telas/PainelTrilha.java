@@ -1,22 +1,16 @@
 package br.univali.portugol.plugin.maspath.telas;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import com.alee.extended.layout.WrapFlowLayout;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.DimensionUIResource;
 
 import com.alee.laf.button.WebButton;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -93,7 +87,6 @@ public class PainelTrilha extends JPanel{
             }else{
                 button.setText(conteudo.getName());
             }
-            //button.setName(i+"");
             try {
                 ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button, 35, 35);
                 img.execute();               
@@ -114,10 +107,6 @@ public class PainelTrilha extends JPanel{
             
             int x = startx + ((i*150)%600);
             int y = starty + 100* (((i*150)/600));
-            // button.setLocation(x, y);
-            // button.setPreferredSize(100, 100);
-            // button.setMaximumSize(new DimensionUIResource(100, 100));
-            // button.setMinimumSize(new DimensionUIResource(100, 100));
             button.setBounds(x, y, 80, 80);
         }
     }
@@ -126,7 +115,6 @@ public class PainelTrilha extends JPanel{
         AbaCodigoFonte aba = (AbaCodigoFonte) PortugolStudio.getInstancia().getTelaPrincipal().getPainelTabulado().getAbaSelecionada();
         aba.getEditor().setCodigo("Codigo Exercicio"+conteudo.getName());
         aba.getEditor().getTextArea().setText("Codigo Exercicio"+conteudo.getName());
-        System.out.println("Abriu "+conteudo.getName());
     }
 
     @Override

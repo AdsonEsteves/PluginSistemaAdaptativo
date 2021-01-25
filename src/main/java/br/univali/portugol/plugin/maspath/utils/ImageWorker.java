@@ -9,12 +9,9 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import com.alee.laf.button.WebButton;
-
-import br.univali.ps.nucleo.PortugolStudio;
 
 public class ImageWorker extends SwingWorker<ImageIcon, Void> {
 

@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
-import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
 
@@ -34,7 +33,6 @@ import br.univali.ps.nucleo.PortugolStudio;
 import br.univali.ps.ui.abas.AbaCodigoFonte;
 import br.univali.ps.ui.swing.ColorController;
 import br.univali.ps.ui.swing.Themeable;
-import br.univali.ps.ui.swing.weblaf.PSScrollBarUI;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
 import br.univali.ps.ui.telas.TelaCustomBorder;
 import br.univali.ps.ui.utils.FabricaDicasInterface;
@@ -109,6 +107,9 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                         painelTags.repaint();
                     }
                 });
+                if(WeblafUtils.weblafEstaInstalado())
+                WeblafUtils.configurarBotao(botao, ColorController.COR_LETRA, ColorController.COR_PRINCIPAL,
+                                        ColorController.COR_LETRA, ColorController.COR_DESTAQUE, 1, true);
                 tags.add(tag);
                 painelTags.add(botao);                
                 botao.setVisible(true);
@@ -183,7 +184,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         this.jScrollPane1.getViewport().setBackground(ColorController.FUNDO_CLARO);
 
         this.campoDeBusca.setCaretColor(ColorController.COR_LETRA);
-        this.painelTags.setBackground(ColorController.COR_PRINCIPAL);
+        this.painelTags.setBackground(ColorController.FUNDO_ESCURO);
         this.painelScrollTags.setOpaque(false);
         
         if(WeblafUtils.weblafEstaInstalado())
@@ -191,6 +192,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
             WeblafUtils.configurarBotao(botaoBuscar, ColorController.COR_LETRA, ColorController.COR_PRINCIPAL,
                                         ColorController.COR_LETRA, ColorController.COR_DESTAQUE, 1, true);
             WeblafUtils.configuraWebLaf(jScrollPane1);
+            WeblafUtils.configuraWebLaf(painelScrollTags);
             WeblafUtils.configuraWebLaf(comboBoxTaxonomia);
             WeblafUtils.configuraWebLaf(comboBoxNivel);
             WeblafUtils.configuraWebLaf(comboBoxTags);

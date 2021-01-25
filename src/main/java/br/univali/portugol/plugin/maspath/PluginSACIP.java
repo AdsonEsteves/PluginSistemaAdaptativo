@@ -12,7 +12,7 @@ import br.univali.ps.plugins.base.VisaoPlugin;
  *
  * @author Luiz Fernando Noschang
  */
-public final class PluginExemplo extends Plugin
+public final class PluginSACIP extends Plugin
 {
     private final VisaoPlugin visao = new VisaoPluginExemplo(this);
     
@@ -22,7 +22,7 @@ public final class PluginExemplo extends Plugin
      * Construtor padrão vázio do plugin.
      */
     
-    public PluginExemplo()
+    public PluginSACIP()
     {
         
     }
