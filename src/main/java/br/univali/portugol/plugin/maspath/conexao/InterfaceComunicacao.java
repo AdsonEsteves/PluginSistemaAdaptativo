@@ -26,9 +26,9 @@ public class InterfaceComunicacao {
         return interCom;
     }
     
-    public String criarAluno(String aluno)
+    public String criarAluno(Student aluno)
     {
-        String response = ConexaoHTTP.fazerRequest("/tutor/requisitaConteudos", "GET", null);
+        String response = ConexaoHTTP.fazerRequest("/interface/contas", "POST", new ObjectMapper().valueToTree(aluno));
         return response.toString();
     }
     
@@ -59,6 +59,12 @@ public class InterfaceComunicacao {
         return response.toString();
     }
 
+    public String atualizaTrilha(String jsonNomeConteudo) throws Exception
+    {
+        String response = ConexaoHTTP.fazerRequest("/tutor/atualizarTrilha/"+porta, "GET", new ObjectMapper().readTree(jsonNomeConteudo));
+        return response.toString();
+    }
+
     public String requisitaInfo()
     {
         String response = ConexaoHTTP.fazerRequest("/tutor/getInfo", "GET", null);
@@ -72,11 +78,10 @@ public class InterfaceComunicacao {
     }
 
     public static void main(String[] args) throws InterruptedException, JsonProcessingException, Exception {
-        // Student student = new Student("Rafaelf", "edwdwd", "trgrtgrt", "homem", 24, "ensino médio", new ArrayList<String>(){{
-        //     add("Mangá");
-        //     add("Memes");
-        //     add("Programação");
-        // }});
+        Student student = new Student("Raul", "123456", "https://cdn.discordapp.com/attachments/571157550956019741/800619727889629264/1521285067403.jpg", "Masculino", 30, "Graduacao", new ArrayList<String>(){{
+            add("tecnologia");
+            add("pets");
+        }}, new ArrayList<>());
         // Content content = new Content("nome", "descricao", 5, "Tópico", "Complexidade", true, 5, new ArrayList<String>(){{
         //     add("Tabuleiro");
         //     add("Jogos");
@@ -110,18 +115,10 @@ public class InterfaceComunicacao {
             "\"senha\": \"AoKMP8ulNg\""+
             "}";
         InterfaceComunicacao intercom = InterfaceComunicacao.getInstance();
-        Student estudante = intercom.fazerLogin(dados);
-        System.out.println("PORTA: "+intercom.porta);
-        ObjectMapper mapper = new ObjectMapper();
-        String trilhaJson = intercom.requisitaConteudos();
-        System.out.println(trilhaJson);
-        JsonNode trilha = mapper.readTree(trilhaJson).get(0);
-        for (JsonNode jsonNode : trilha) {
-            Content conteudo = mapper.treeToValue(jsonNode, Content.class);
-            System.out.println(conteudo.toString());
-        }
+        String estudante = intercom.criarAluno(student);
         
-        Thread.sleep(2000);
-        System.out.println(intercom.deslogar());
+        
+        //Thread.sleep(2000);
+        System.out.println(estudante);
     }
 }

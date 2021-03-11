@@ -15,21 +15,14 @@ import br.univali.ps.ui.swing.Themeable;
 import br.univali.ps.ui.swing.weblaf.WeblafUtils;
 import com.alee.extended.image.DisplayType;
 import com.alee.extended.image.WebImage;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -53,7 +46,7 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
     }
 
     public void configuraPainel(Student estudante) {
-        // setImage(drawer.drawGraph());
+        //setImage(drawer.drawGraph());
         this.estudante = estudante;
         SwingUtilities.invokeLater(() -> {
             painelAmostragem.removeAll();
@@ -69,8 +62,11 @@ public class painelMenuPrincipal extends javax.swing.JPanel implements Themeable
             painelAmostragem.add(trilha);
             revalidate();
             repaint();
+            trilha.revalidate();
+            trilha.repaint();
         });
     }
+
     private void configurarAcoes(){
         this.botaoLogout.setAction(new AbstractAction("",new javax.swing.ImageIcon(getClass().getResource("/logout.png"))){
             @Override

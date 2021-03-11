@@ -123,6 +123,10 @@ public class Student{
         this.trilha = trilha;
     }
 
+    public void addNovoPassoTrilha(String content) {
+        this.trilha.add(content);
+    }
+
     public List<String> getExerciciosResolvidos() {
         return this.exerciciosResolvidos;
     }

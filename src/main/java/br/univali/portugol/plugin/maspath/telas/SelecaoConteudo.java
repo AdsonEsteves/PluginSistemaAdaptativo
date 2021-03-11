@@ -214,8 +214,9 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                 WebButton button = new WebButton(new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        abrirConteudo(conteudo);
-                        ControladorDeJanelas.getInstance().hideJanelaAtual();
+                        //abrirConteudo(conteudo);
+                        atualizarTrilha(conteudo);
+                        //ControladorDeJanelas.getInstance().hideJanelaAtual();
                     }
                 });
                 
@@ -232,7 +233,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                 FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
                 painelItensBuscados.add(button);
                 conteudos.add(conteudo);
-                ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button, 103, 103);
+                ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button, 95, 95);
                 img.execute();
                 
             } catch (JsonProcessingException ex) {
@@ -245,10 +246,21 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         repaint();
     }
 
+    private void atualizarTrilha(Content conteudo)
+    {
+        try {
+            String resposta = InterfaceComunicacao.getInstance().atualizaTrilha("{\"nomeConteudo\":\""+conteudo.getName()+"\"}");
+            System.out.println(resposta);
+        } catch (Exception e) {
+            PortugolStudio.getInstancia().getTratadorExcecoes().exibirExcecao(e);
+        }
+    }
+
     private void abrirConteudo(Content conteudo){
         AbaCodigoFonte aba = (AbaCodigoFonte) PortugolStudio.getInstancia().getTelaPrincipal().getPainelTabulado().getAbaSelecionada();
         aba.getEditor().setCodigo("Codigo Exercicio"+conteudo.getName());
         aba.getEditor().getTextArea().setText("Codigo Exercicio"+conteudo.getName());
+        //aba.getScrollInspetor().setViewportView(view);
         System.out.println("Abriu "+conteudo.getName());
     }
     

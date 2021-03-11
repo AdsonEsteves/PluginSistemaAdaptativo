@@ -26,8 +26,8 @@ public class painelLogin extends javax.swing.JPanel implements Themeable {
     public painelLogin() {
         initComponents();
         configurarCores();
-        this.CampoLogin.setText("oJGgQOqvB8");
-        this.campoSenha.setText("9JZ8racZBO");
+        this.CampoLogin.setText("Raul");
+        this.campoSenha.setText("123456");
     }
 
     @Override

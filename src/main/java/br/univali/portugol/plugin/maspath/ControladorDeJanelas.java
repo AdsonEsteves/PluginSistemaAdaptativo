@@ -75,6 +75,12 @@ public class ControladorDeJanelas {
         janelaAtual =  janelaMenuPrincipal;
         janelaAtual.setVisible(true);
     }
+
+    public TelaCustomBorder getJanelaAtual()
+    {
+        return janelaAtual;
+    }
+
     
     // public void closeJanelaMenuPrincipal()
     // {
