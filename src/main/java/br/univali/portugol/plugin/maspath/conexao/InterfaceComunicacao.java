@@ -77,6 +77,12 @@ public class InterfaceComunicacao {
         return response.toString();
     }
 
+    public String imprimir_dados()
+    {
+        String response = ConexaoHTTP.fazerRequest("/interface/imprimirDados", "GET", null);
+        return response.toString();
+    }
+
     public static void main(String[] args) throws InterruptedException, JsonProcessingException, Exception {
         Student student = new Student("Raul", "123456", "https://cdn.discordapp.com/attachments/571157550956019741/800619727889629264/1521285067403.jpg", "Masculino", 30, "Graduacao", new ArrayList<String>(){{
             add("tecnologia");

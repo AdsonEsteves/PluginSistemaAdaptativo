@@ -5,6 +5,7 @@
  */
 package br.univali.portugol.plugin.maspath.telas;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,7 +16,9 @@ import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.SwingConstants;
+import javax.swing.event.MouseInputAdapter;
 
 import com.alee.extended.layout.WrapFlowLayout;
 import com.alee.laf.button.WebButton;
@@ -24,6 +27,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import org.w3c.dom.events.MouseEvent;
 
 import br.univali.portugol.plugin.maspath.ControladorDeJanelas;
 import br.univali.portugol.plugin.maspath.conexao.InterfaceComunicacao;
@@ -46,6 +51,8 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
     List<Content> conteudos = new ArrayList<>();
     ObjectMapper mapper = new ObjectMapper();
     List<String> tags = new ArrayList<>();
+    painelInfoConteudo painel= new painelInfoConteudo();
+    JFrame frame = new JFrame();
     
     /**
      * Creates new form SelecaoConteudo
@@ -56,6 +63,18 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         configurarAcaoBuscar();
         configurarCores();
         painelItensBuscados.setLayout(new WrapFlowLayout(false, 2, 2));
+        frame.setUndecorated(true);        
+        frame.add(painel);
+    }
+    
+    public void configurarFrame()
+    {   
+        TelaCustomBorder janela = ControladorDeJanelas.getInstance().getJanelaAtual();
+        frame.setLocation(janela.getX()+janela.getWidth()+15, janela.getY()+40);
+        frame.setPreferredSize(new Dimension(150, 450));
+        frame.setMaximumSize(new Dimension(150, 450));
+        frame.setMinimumSize(new Dimension(150, 450));
+        //frame.setVisible(true);
     }
 
     private void configurarAcaoBuscar(){
@@ -219,7 +238,26 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                         //ControladorDeJanelas.getInstance().hideJanelaAtual();
                     }
                 });
-                
+                button.addMouseListener(new MouseInputAdapter(){
+
+                    @Override
+                    public void mouseEntered(java.awt.event.MouseEvent e) {
+                        configurarFrame();
+                        painel.updateData(conteudo);
+                        frame.setAlwaysOnTop(true);
+                        frame.setVisible(true);
+                        painel.revalidate();
+                        painel.repaint();
+                        frame.revalidate();
+                        frame.repaint();
+                        frame.pack();
+                    }
+    
+                    @Override
+                    public void mouseExited(java.awt.event.MouseEvent e) {
+                        frame.setVisible(false);
+                    }
+                });
                 if(conteudo.getName().length()>15){
                     button.setText(conteudo.getName().substring(0, 11)+"...");
                 }else{
