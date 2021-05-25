@@ -15,16 +15,18 @@ public class experimento {
 
     public static void main(String[] args) throws Exception {
 
-        for (int a = 0; a < 2; a++) {
+        for (int a = 0; a < 1000; a++) {
             cria_aluno();
             faz_login();
-            for (int i = 0; i < topicos1d.length; i++) {
-                pede_recomendacao(i);
+            for (int i = 0; i < topicos1d.length/3; i++) {
+                requisita_recomendacao(i);
             }            
             desloga();            
         }
         imprime_dados();
     }
+
+    static List<Integer> redo =  new ArrayList<>();
 
     static InterfaceComunicacao intercom = InterfaceComunicacao.getInstance();
 
@@ -80,20 +82,39 @@ public class experimento {
         System.out.println(resposta);
     }
 
-    private static void pede_recomendacao(int topico_index) throws Exception {
+    private static void requisita_recomendacao(int nivel) throws Exception
+    {
+        for (int j = 1; j <= 3; j++) {
+            if(!pede_recomendacao((nivel * 3) + j))
+            {
+                redo.add(j);
+            }                  
+        }
+        if(!redo.isEmpty())
+        {
+            for (Integer r : redo) {
+                pede_recomendacao((nivel * 3) + r);
+            }
+            redo.clear();
+        }
+    }
+
+    private static boolean pede_recomendacao(int topico_index) throws Exception {
         String conteudos_string_json = intercom.requisitaConteudos();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode conteudos = mapper.readTree(conteudos_string_json).get(0);
-
+        int t = (int) (Math.random() * 3) + 1;
+        int nivel = (topico_index/3)+1;
         for (JsonNode conteudo : conteudos) {
-            if(conteudo.get("topic").asText().equals(topicos1d[topico_index]))
+            if(conteudo.get("topic").asText().equals(topicos1d[topico_index-1]))
             {
                 registra_na_trilha(conteudo.get("name").asText());
-                return;
+                return true;
             }
         }
         System.out.println("Sem conteudo do topico: "+topicos1d[topico_index]);        
-        System.exit(0);
+        return false;
+        // System.exit(0);
     }
 
     public static void cria_aluno() {
@@ -134,7 +155,7 @@ public class experimento {
         List<String> selectedTags = new ArrayList<>();
 
         int randtags = (int)(Math.random() * 2) + 3; 
-
+        System.out.println(randtags);
         for (int i = 0; i < randtags; i++) {
             String chosenTag = tags[new Random().nextInt(tags.length)];
             if(selectedTags.contains(chosenTag))
