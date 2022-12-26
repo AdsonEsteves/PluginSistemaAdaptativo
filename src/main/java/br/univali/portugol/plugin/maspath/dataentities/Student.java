@@ -5,19 +5,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+public class Student {
 
-public class Student{
-    
-    //Dados pessoais
+    // Dados pessoais
     private String name;
     private String password;
     private String avatar;
     private String genero;
     private int idade;
-    private String nivelEducacional;
+    private int nivelEducacional;
     private List<String> preferencias;
-    
-    //dados de Uso
+    private double notaFinal;
+    private double assiduidade;
+
+    // dados de Uso
     private List<String> trilha;
     private List<String> exerciciosResolvidos;
     private int tempoResolucao;
@@ -30,7 +31,8 @@ public class Student{
         super();
     }
 
-    public Student(String name, String password, String avatar, String genero, int idade, String nivelEducacional, List<String> preferencias, List<String> trilha) {
+    public Student(String name, String password, String avatar, String genero, int idade, int nivelEducacional,
+            List<String> preferencias, List<String> trilha, double notaFinal, double assiduidade) {
         this.name = name;
         this.password = password;
         this.avatar = avatar;
@@ -43,6 +45,9 @@ public class Student{
         this.tempoResolucao = 0;
         this.errosDoEstudante = new ArrayList<>();
         this.tempoTag = new LinkedHashMap<>();
+        this.notaFinal = notaFinal;
+        this.assiduidade = assiduidade;
+        ;
     }
 
     public String getName() {
@@ -67,7 +72,7 @@ public class Student{
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }     
+    }
 
     public String getGenero() {
         return this.genero;
@@ -85,11 +90,11 @@ public class Student{
         this.idade = idade;
     }
 
-    public String getNivelEducacional() {
+    public int getNivelEducacional() {
         return this.nivelEducacional;
     }
 
-    public void setNivelEducacional(String nivelEducacional) {
+    public void setNivelEducacional(int nivelEducacional) {
         this.nivelEducacional = nivelEducacional;
     }
 
@@ -102,12 +107,12 @@ public class Student{
         StringBuilder builder = new StringBuilder();
 
         for (String preferencia : preferencias) {
-            builder.append("'"+preferencia+"',");
+            builder.append("'" + preferencia + "',");
         }
-        
-        if(!preferencias.isEmpty())
-        builder.deleteCharAt(builder.lastIndexOf(","));
-        
+
+        if (!preferencias.isEmpty())
+            builder.deleteCharAt(builder.lastIndexOf(","));
+
         return builder.toString();
     }
 
@@ -154,18 +159,60 @@ public class Student{
     @Override
     public String toString() {
         return "{" +
-            " name:'" + name + "'" +
-            ", password:'" + password + "'" +
-            ", avatar:'" + avatar + "'" +
-            ", genero:'" + genero + "'" +
-            ", idade:" + idade + "" +
-            ", nivelEducacional:'" + nivelEducacional + "'" +
-            ", preferencias:[" + buildPreferenciasAsString() + "]" +
-            ", trilha:" + trilha + "" +
-            ", exerciciosResolvidos:" + exerciciosResolvidos + "" +
-            ", tempoResolucao:" + tempoResolucao + "" +
-            ", errosDoEstudante:" + errosDoEstudante + "" +
-            "}";
+                " name:'" + name + "'" +
+                ", password:'" + password + "'" +
+                ", avatar:'" + avatar + "'" +
+                ", genero:'" + genero + "'" +
+                ", idade:" + idade + "" +
+                ", nivelEducacional:'" + nivelEducacional + "'" +
+                ", preferencias:[" + buildPreferenciasAsString() + "]" +
+                ", trilha:" + trilha + "" +
+                ", exerciciosResolvidos:" + exerciciosResolvidos + "" +
+                ", tempoResolucao:" + tempoResolucao + "" +
+                ", errosDoEstudante:" + errosDoEstudante + "" +
+                "}";
+    }
+
+    /**
+     * @return double return the notaFinal
+     */
+    public double getNotaFinal() {
+        return notaFinal;
+    }
+
+    /**
+     * @param notaFinal the notaFinal to set
+     */
+    public void setNotaFinal(double notaFinal) {
+        this.notaFinal = notaFinal;
+    }
+
+    /**
+     * @return double return the assiduidade
+     */
+    public double getAssiduidade() {
+        return assiduidade;
+    }
+
+    /**
+     * @param assiduidade the assiduidade to set
+     */
+    public void setAssiduidade(double assiduidade) {
+        this.assiduidade = assiduidade;
+    }
+
+    /**
+     * @return Map<String, Long> return the tempoTag
+     */
+    public Map<String, Long> getTempoTag() {
+        return tempoTag;
+    }
+
+    /**
+     * @param tempoTag the tempoTag to set
+     */
+    public void setTempoTag(Map<String, Long> tempoTag) {
+        this.tempoTag = tempoTag;
     }
 
 }

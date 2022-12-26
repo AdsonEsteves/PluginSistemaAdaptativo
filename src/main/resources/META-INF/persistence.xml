@@ -1,0 +1,17 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0">
+    <persistence-unit name="SACIP">
+        <class>br.univali.portugol.plugin.maspath.dataentities.Student2</class>
+        <properties>
+            <property name="hibernate.connection.driver_class" value ="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.password" value ="pscale_pw_Cv5ZaMapTwlKdoQO5xSihES6w_mtsG2HvJbIxa2r11g"/>
+            <property name="hibernate.connection.url" value ="jdbc:mysql://581whe46bl3f.aws-sa-east-1-1.psdb.cloud/dummy_students?sslMode=VERIFY_IDENTITY"/>
+            <property name="hibernate.connection.username" value ="gxuxc00vwqux"/>
+            <property name="hibernate.dialect" value ="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.show_sql" value ="true"/>
+            <property name="hibernate.format_sql" value ="false"/>
+            <property name="hibernate.hbm2ddl.auto" value ="update"/>
+
+        </properties>
+    </persistence-unit>
+</persistence>

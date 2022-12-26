@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">pscale_pw_Cv5ZaMapTwlKdoQO5xSihES6w_mtsG2HvJbIxa2r11g</property>
+        <property name="hibernate.connection.url">jdbc:mysql://581whe46bl3f.aws-sa-east-1-1.psdb.cloud/dummy_students?sslMode=VERIFY_IDENTITY</property>
+        <property name="hibernate.connection.username">gxuxc00vwqux</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">false</property>
+        <property name="hbm2ddl.auto">update</property>
+
+        <!-- Student -->
+        <mapping class="br.univali.portugol.plugin.maspath.dataentities.Student2" />
+
+    </session-factory>
+</hibernate-configuration>

@@ -46,14 +46,14 @@ import br.univali.ps.ui.utils.FabricaDicasInterface;
  *
  * @author Space Today
  */
-public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
-    
+public class SelecaoConteudo extends javax.swing.JPanel implements Themeable {
+
     List<Content> conteudos = new ArrayList<>();
     ObjectMapper mapper = new ObjectMapper();
     List<String> tags = new ArrayList<>();
-    painelInfoConteudo painel= new painelInfoConteudo();
+    painelInfoConteudo painel = new painelInfoConteudo();
     JFrame frame = new JFrame();
-    
+
     /**
      * Creates new form SelecaoConteudo
      */
@@ -63,22 +63,21 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         configurarAcaoBuscar();
         configurarCores();
         painelItensBuscados.setLayout(new WrapFlowLayout(false, 2, 2));
-        frame.setUndecorated(true);        
+        frame.setUndecorated(true);
         frame.add(painel);
     }
-    
-    public void configurarFrame()
-    {   
+
+    public void configurarFrame() {
         TelaCustomBorder janela = ControladorDeJanelas.getInstance().getJanelaAtual();
-        frame.setLocation(janela.getX()+janela.getWidth()+15, janela.getY()+40);
+        frame.setLocation(janela.getX() + janela.getWidth() + 15, janela.getY() + 40);
         frame.setPreferredSize(new Dimension(150, 450));
         frame.setMaximumSize(new Dimension(150, 450));
         frame.setMinimumSize(new Dimension(150, 450));
-        //frame.setVisible(true);
+        // frame.setVisible(true);
     }
 
-    private void configurarAcaoBuscar(){
-        this.botaoBuscar.setAction(new AbstractAction("Buscar"){
+    private void configurarAcaoBuscar() {
+        this.botaoBuscar.setAction(new AbstractAction("Buscar") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ObjectNode infoBusca = mapper.createObjectNode();
@@ -105,18 +104,18 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                 try {
                     addContents(mapper.readTree(busca));
                 } catch (Exception e1) {
-                    //TODO Auto-generated catch block
+                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
         });
         painelTags.setLayout(new BoxLayout(painelTags, BoxLayout.X_AXIS));
-        this.comboBoxTags.setAction(new AbstractAction(){
+        this.comboBoxTags.setAction(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 WebButton botao = new WebButton();
-                String tag = (String)((WebComboBox)e.getSource()).getSelectedItem();
-                botao.setAction(new AbstractAction(tag){
+                String tag = (String) ((WebComboBox) e.getSource()).getSelectedItem();
+                botao.setAction(new AbstractAction(tag) {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         WebButton botao = (WebButton) e.getSource();
@@ -126,11 +125,11 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                         painelTags.repaint();
                     }
                 });
-                if(WeblafUtils.weblafEstaInstalado())
-                WeblafUtils.configurarBotao(botao, ColorController.COR_LETRA, ColorController.COR_PRINCIPAL,
-                                        ColorController.COR_LETRA, ColorController.COR_DESTAQUE, 1, true);
+                if (WeblafUtils.weblafEstaInstalado())
+                    WeblafUtils.configurarBotao(botao, ColorController.COR_LETRA, ColorController.COR_PRINCIPAL,
+                            ColorController.COR_LETRA, ColorController.COR_DESTAQUE, 1, true);
                 tags.add(tag);
-                painelTags.add(botao);                
+                painelTags.add(botao);
                 botao.setVisible(true);
                 painelTags.revalidate();
                 painelTags.repaint();
@@ -145,13 +144,13 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         border.setVisible(true);
     }
 
-    private void configurarSeletores(){
+    private void configurarSeletores() {
 
         this.comboBoxTaxonomia.removeAllItems();
         this.comboBoxNivel.removeAllItems();
         this.comboBoxTopico.removeAllItems();
         this.comboBoxTags.removeAllItems();
-        
+
         this.campoDeBusca.setText("");
 
         String info = InterfaceComunicacao.getInstance().requisitaInfo();
@@ -171,7 +170,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
             JsonNode jinfo = mapper.readTree(info);
 
             for (int i = 1; i <= jinfo.get("MAXlevel").asInt(); i++) {
-                this.comboBoxNivel.addItem(i+"");
+                this.comboBoxNivel.addItem(i + "");
             }
 
             for (JsonNode jsonNode : jinfo.get("tags")) {
@@ -197,7 +196,7 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         this.labelTemas.setForeground(ColorController.COR_LETRA);
         this.labelTopico.setForeground(ColorController.COR_LETRA);
         this.labelTipo.setForeground(ColorController.COR_LETRA);
-        
+
         this.campoDeBusca.setBackground(ColorController.FUNDO_CLARO);
         this.campoDeBusca.setForeground(ColorController.COR_LETRA);
         this.jScrollPane1.getViewport().setBackground(ColorController.FUNDO_CLARO);
@@ -205,11 +204,10 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         this.campoDeBusca.setCaretColor(ColorController.COR_LETRA);
         this.painelTags.setBackground(ColorController.FUNDO_ESCURO);
         this.painelScrollTags.setOpaque(false);
-        
-        if(WeblafUtils.weblafEstaInstalado())
-        {
+
+        if (WeblafUtils.weblafEstaInstalado()) {
             WeblafUtils.configurarBotao(botaoBuscar, ColorController.COR_LETRA, ColorController.COR_PRINCIPAL,
-                                        ColorController.COR_LETRA, ColorController.COR_DESTAQUE, 1, true);
+                    ColorController.COR_LETRA, ColorController.COR_DESTAQUE, 1, true);
             WeblafUtils.configuraWebLaf(jScrollPane1);
             WeblafUtils.configuraWebLaf(painelScrollTags);
             WeblafUtils.configuraWebLaf(comboBoxTaxonomia);
@@ -221,24 +219,22 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         revalidate();
         repaint();
     }
-    
-    public void addContents(JsonNode json)
-    {   
+
+    public void addContents(JsonNode json) {
         painelItensBuscados.removeAll();
-          
+
         for (JsonNode jsonNode : json) {
-            try 
-            {
+            try {
                 Content conteudo = mapper.treeToValue(jsonNode, Content.class);
                 WebButton button = new WebButton(new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //abrirConteudo(conteudo);
+                        // abrirConteudo(conteudo);
                         atualizarTrilha(conteudo);
-                        //ControladorDeJanelas.getInstance().hideJanelaAtual();
+                        // ControladorDeJanelas.getInstance().hideJanelaAtual();
                     }
                 });
-                button.addMouseListener(new MouseInputAdapter(){
+                button.addMouseListener(new MouseInputAdapter() {
 
                     @Override
                     public void mouseEntered(java.awt.event.MouseEvent e) {
@@ -252,28 +248,29 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
                         frame.repaint();
                         frame.pack();
                     }
-    
+
                     @Override
                     public void mouseExited(java.awt.event.MouseEvent e) {
                         frame.setVisible(false);
                     }
                 });
-                if(conteudo.getName().length()>15){
-                    button.setText(conteudo.getName().substring(0, 11)+"...");
-                }else{
+                if (conteudo.getName().length() > 15) {
+                    button.setText(conteudo.getName().substring(0, 11) + "...");
+                } else {
                     button.setText(conteudo.getName());
-                }                
+                }
                 button.setHorizontalAlignment(SwingConstants.CENTER);
                 button.setVerticalAlignment(SwingConstants.CENTER);
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
-                WeblafUtils.configurarBotao(button,ColorController.TRANSPARENTE, ColorController.COR_LETRA_TITULO, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 5);
+                WeblafUtils.configurarBotao(button, ColorController.TRANSPARENTE, ColorController.COR_LETRA_TITULO,
+                        ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 5);
                 FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
                 painelItensBuscados.add(button);
                 conteudos.add(conteudo);
                 ImageWorker img = new ImageWorker(new URL(conteudo.getImageLink()), button, 95, 95);
                 img.execute();
-                
+
             } catch (JsonProcessingException ex) {
                 Logger.getLogger(SelecaoConteudo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MalformedURLException ex) {
@@ -284,26 +281,26 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         repaint();
     }
 
-    private void atualizarTrilha(Content conteudo)
-    {
+    private void atualizarTrilha(Content conteudo) {
         try {
-            String resposta = InterfaceComunicacao.getInstance().atualizaTrilha("{\"nomeConteudo\":\""+conteudo.getName()+"\"}");
+            String resposta = InterfaceComunicacao.getInstance()
+                    .atualizaTrilha("{\"nomeConteudo\":\"" + conteudo.getName() + "\"}");
             System.out.println(resposta);
         } catch (Exception e) {
             PortugolStudio.getInstancia().getTratadorExcecoes().exibirExcecao(e);
         }
     }
 
-    private void abrirConteudo(Content conteudo){
-        AbaCodigoFonte aba = (AbaCodigoFonte) PortugolStudio.getInstancia().getTelaPrincipal().getPainelTabulado().getAbaSelecionada();
-        aba.getEditor().setCodigo("Codigo Exercicio"+conteudo.getName());
-        aba.getEditor().getTextArea().setText("Codigo Exercicio"+conteudo.getName());
-        //aba.getScrollInspetor().setViewportView(view);
-        System.out.println("Abriu "+conteudo.getName());
+    private void abrirConteudo(Content conteudo) {
+        AbaCodigoFonte aba = (AbaCodigoFonte) PortugolStudio.getInstancia().getTelaPrincipal().getPainelTabulado()
+                .getAbaSelecionada();
+        aba.getEditor().setCodigo("Codigo Exercicio" + conteudo.getName());
+        aba.getEditor().getTextArea().setText("Codigo Exercicio" + conteudo.getName());
+        // aba.getScrollInspetor().setViewportView(view);
+        System.out.println("Abriu " + conteudo.getName());
     }
-    
-    public void addFakeContents()
-    {
+
+    public void addFakeContents() {
         painelItensBuscados.removeAll();
         this.comboBoxTaxonomia.removeAllItems();
         this.comboBoxNivel.removeAllItems();
@@ -325,24 +322,26 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         this.comboBoxTags.addItem("safdasf");
         try {
             for (int i = 0; i < 30; i++) {
-                Content conteudo = new Content("nome", "descricao", i%5, "Tópico", "Complexidade", true, i%5, new ArrayList<String>(), "Link", "https://i.4cdn.org/vg/1610038753760.jpg");
+                Content conteudo = new Content("nome", "descricao", i % 5, "Tópico", "Complexidade", true, i % 5,
+                        new ArrayList<String>(), "Link", "https://i.4cdn.org/vg/1610038753760.jpg", "");
                 WebButton button = new WebButton(new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //abrirConteudo
+                        // abrirConteudo
                     }
                 });
-                if(conteudo.getName().length()>15){
-                    button.setText(conteudo.getName().substring(0, 11)+"...");
-                }else{
+                if (conteudo.getName().length() > 15) {
+                    button.setText(conteudo.getName().substring(0, 11) + "...");
+                } else {
                     button.setText(conteudo.getName());
                 }
-                
+
                 button.setHorizontalAlignment(SwingConstants.CENTER);
                 button.setVerticalAlignment(SwingConstants.CENTER);
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
-                WeblafUtils.configurarBotao(button,ColorController.TRANSPARENTE, ColorController.COR_LETRA_TITULO, ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2);
+                WeblafUtils.configurarBotao(button, ColorController.TRANSPARENTE, ColorController.COR_LETRA_TITULO,
+                        ColorController.COR_DESTAQUE, ColorController.COR_LETRA, 2);
                 FabricaDicasInterface.criarTooltip(button, conteudo.getTopic());
                 painelItensBuscados.add(button);
                 conteudos.add(conteudo);
@@ -354,15 +353,14 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         }
     }
 
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         webComboBox1 = new com.alee.laf.combobox.WebComboBox();
@@ -489,13 +487,11 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         javax.swing.GroupLayout painelTagsLayout = new javax.swing.GroupLayout(painelTags);
         painelTags.setLayout(painelTagsLayout);
         painelTagsLayout.setHorizontalGroup(
-            painelTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 708, Short.MAX_VALUE)
-        );
+                painelTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 708, Short.MAX_VALUE));
         painelTagsLayout.setVerticalGroup(
-            painelTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 81, Short.MAX_VALUE)
-        );
+                painelTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 81, Short.MAX_VALUE));
 
         painelScrollTags.setViewportView(painelTags);
 
@@ -532,20 +528,16 @@ public class SelecaoConteudo extends javax.swing.JPanel implements Themeable{
         javax.swing.GroupLayout painelItensBuscadosLayout = new javax.swing.GroupLayout(painelItensBuscados);
         painelItensBuscados.setLayout(painelItensBuscadosLayout);
         painelItensBuscadosLayout.setHorizontalGroup(
-            painelItensBuscadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
-        );
+                painelItensBuscadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 601, Short.MAX_VALUE));
         painelItensBuscadosLayout.setVerticalGroup(
-            painelItensBuscadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
-        );
+                painelItensBuscadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 468, Short.MAX_VALUE));
 
         jScrollPane1.setViewportView(painelItensBuscados);
 
         add(jScrollPane1);
     }// </editor-fold>//GEN-END:initComponents
-
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.alee.laf.button.WebButton botaoBuscar;
